@@ -66,7 +66,10 @@
     chart: $('chart'), cmpBody: $('cmp-body'),
     moveLast: $('move-last'), moveHistory: $('move-history'),
     legend: $('legend'), hsPairs: $('hs-pairs'), hsProfile: $('hs-profile'), announcer: $('announcer'),
+    mState: $('m-state'),
   };
+  const STATE_TXT = { idle: 'En espera', running: 'Ejecutando', paused: 'En pausa', done: 'Terminado', manual: 'Modo manual' };
+  const setState = (k) => { if (!el.mState) return; el.mState.dataset.state = k; el.mState.textContent = STATE_TXT[k] || k; };
 
   // ---------- Utilidades ----------
   // Enteros con punto de miles siempre (es-ES no agrupa números de 4 cifras): 8572 -> "8.572"
@@ -77,9 +80,11 @@
   const fmt = (n) => (Number.isFinite(n) ? nf0.format(Math.round(n)) : '—');
   const fmtPct = (x) => (Number.isFinite(x) ? nf1.format(x * 100) + ' %' : '—');
   const fmtSigned = (n) => (n > 0 ? '+' : n < 0 ? '−' : '±') + nf0.format(Math.abs(Math.round(n)));
-  // Paleta alegre y distinguible sobre fondo blanco (sustituye a la del motor solo en la UI).
-  const FAM_COLORS = { A: '#2563eb', B: '#ca8a04', C: '#16a34a', D: '#7c3aed', E: '#db2777', F: '#0d9488' };
-  const famColor = (f) => FAM_COLORS[f] || (E.FAMILIES[f] && E.FAMILIES[f].color) || '#6b7280';
+  // Paleta categórica apagada (misma luminancia, ver styles.css). Sustituye a la del motor solo en la UI.
+  // La letra de familia acompaña siempre al color (accesible en daltonismo).
+  const FAM_COLORS = { A: '#52708f', B: '#86703f', C: '#5b7b58', D: '#736592', E: '#9a5f6e', F: '#47797c' };
+  const famColor = (f) => FAM_COLORS[f] || (E.FAMILIES[f] && E.FAMILIES[f].color) || '#6b6359';
+  const famMark = (f) => `<span class="fam-mark" style="background:${famColor(f)}" aria-hidden="true">${f}</span>`;
   const fmtCompact = (n) => {
     if (!Number.isFinite(n)) return '—';
     const a = Math.abs(n);
@@ -130,26 +135,26 @@
     const rowTop = (p) => rowY(p) - G.rowPitch / 2;
     const rowBot = (p) => rowY(p) + G.rowPitch / 2;
     const zones = [
-      { name: 'Fondo', from: 5, to: 7, fill: 'rgba(100,116,139,0.06)' },
-      { name: 'Medio', from: 3, to: 4, fill: 'rgba(234,179,8,0.09)' },
-      { name: 'Frente', from: 0, to: 2, fill: 'rgba(22,163,74,0.08)' },
+      { name: 'Fondo', from: 5, to: 7 },
+      { name: 'Medio', from: 3, to: 4 },
+      { name: 'Frente', from: 0, to: 2 },
     ];
     const gz = svgEl('g', { 'aria-hidden': 'true' }, svg);
     zones.forEach((z, i) => {
       const y1 = rowTop(z.to), y2 = rowBot(z.from);
-      svgEl('rect', { class: 'zone-band', x: 8, y: y1, width: xMax - 8, height: y2 - y1, rx: 10, fill: z.fill }, gz);
+      svgEl('rect', { class: 'zone-band z-' + i, x: 8, y: y1, width: xMax - 8, height: y2 - y1, rx: 4 }, gz);
       if (i > 0) svgEl('line', { class: 'zone-line', x1: 8, x2: xMax, y1: y1, y2: y1 }, gz);
       const t = svgEl('text', { class: 'zone-label', x: 30, y: (y1 + y2) / 2, 'text-anchor': 'middle', transform: `rotate(-90 30 ${(y1 + y2) / 2})` }, gz);
       t.textContent = z.name;
     });
     for (let a = 0; a < 4; a++) {
       const cx = colX(a);
-      svgEl('rect', { class: 'aisle-floor', x: cx - G.slotW / 2 - 8, y: G.top - 4, width: G.slotW + 16, height: G.rows * G.rowPitch + 8, rx: 12 }, gz);
+      svgEl('rect', { class: 'aisle-floor', x: cx - G.slotW / 2 - 8, y: G.top - 4, width: G.slotW + 16, height: G.rows * G.rowPitch + 8, rx: 4 }, gz);
       const t = svgEl('text', { class: 'aisle-label', x: cx, y: G.top - 16, 'text-anchor': 'middle' }, gz);
       t.textContent = `Pasillo ${a + 1}`;
     }
     const dockY = G.top + G.rows * G.rowPitch + 14;
-    svgEl('rect', { class: 'dock', x: xMin, y: dockY, width: xMax - xMin, height: 30, rx: 10 }, gz);
+    svgEl('rect', { class: 'dock', x: xMin, y: dockY, width: xMax - xMin, height: 30, rx: 4 }, gz);
     const dt = svgEl('text', { class: 'dock-label', x: (xMin + xMax) / 2, y: dockY + 19, 'text-anchor': 'middle' }, gz);
     dt.textContent = 'FRENTE DEL ALMACÉN · DESPACHO';
     return gz;
@@ -159,18 +164,21 @@
   function makeSkuNode(parent, sku) {
     const w = G.slotW - 8, h = G.slotH - 6, col = famColor(sku.family);
     const g = svgEl('g', { class: 'sku', 'data-sku': sku.id - 1 }, parent);
-    svgEl('rect', { class: 'sku-shadow', x: -w / 2, y: -h / 2 + 2.5, width: w, height: h, rx: 8 }, g);
-    svgEl('rect', { class: 'sku-bg', x: -w / 2, y: -h / 2, width: w, height: h, rx: 8, stroke: col }, g);
-    svgEl('rect', { x: -w / 2 + 3, y: -h / 2 + 3, width: 6, height: h - 6, rx: 3, fill: col }, g);
-    const id = svgEl('text', { class: 'sku-id', x: -w / 2 + 15, y: -1 }, g);
+    svgEl('rect', { class: 'sku-bg', x: -w / 2, y: -h / 2, width: w, height: h, rx: 4 }, g);
+    // Distintivo de familia: color apagado + letra (no depende solo del color).
+    const fm = svgEl('g', { class: 'sku-fam-mark', transform: `translate(${-w / 2 + 6} -9)` }, g);
+    svgEl('rect', { width: 18, height: 18, rx: 2, fill: col }, fm);
+    const fl = svgEl('text', { x: 9, y: 13, 'text-anchor': 'middle' }, fm);
+    fl.textContent = sku.family;
+    const id = svgEl('text', { class: 'sku-id', x: -w / 2 + 30, y: -1 }, g);
     id.textContent = `SKU ${sku.id}`;
-    const fam = svgEl('text', { class: 'sku-fam', x: -w / 2 + 15, y: 12 }, g);
+    const fam = svgEl('text', { class: 'sku-fam', x: -w / 2 + 30, y: 12 }, g);
     fam.textContent = sku.family === 'E' ? 'Cuid. personal' : famName(sku.family);
-    svgEl('rect', { class: 'sku-price-bg', x: w / 2 - 38, y: -h / 2 + 4, width: 34, height: 15, rx: 7.5 }, g);
-    const pk = svgEl('text', { class: 'sku-picks', x: w / 2 - 21, y: -h / 2 + 15, 'text-anchor': 'middle' }, g);
+    const pk = svgEl('text', { class: 'sku-picks', x: w / 2 - 6, y: -h / 2 + 12, 'text-anchor': 'end' }, g);
     pk.textContent = fmtCompact(sku.picks);
-    const badge = svgEl('g', { class: 'sku-badge', transform: `translate(${-w / 2 + 2} ${-h / 2 + 1})` }, g);
-    svgEl('circle', { r: 9 }, badge);
+    // Marca de "cambió de ubicación": cuadrado oscuro con ↻ (forma + tono).
+    const badge = svgEl('g', { class: 'sku-badge', transform: `translate(${w / 2 - 8} ${h / 2 - 8})` }, g);
+    svgEl('rect', { x: -7, y: -7, width: 14, height: 14, rx: 2 }, badge);
     const bt = svgEl('text', { y: 4, 'text-anchor': 'middle' }, badge);
     bt.textContent = '↻';
     g._picks = pk;
@@ -188,8 +196,8 @@
     slotNodes = S.inst.slots.map((sl) => {
       const [cx, cy] = slotCenter(sl.id);
       const g = svgEl('g', { class: 'slot', tabindex: '0', role: 'button', 'data-slot': sl.id, transform: `translate(${cx} ${cy})` }, gSlots);
-      svgEl('rect', { class: 'slot-bg', x: -G.slotW / 2, y: -G.slotH / 2, width: G.slotW, height: G.slotH, rx: 9 }, g);
-      svgEl('rect', { class: 'slot-ring', x: -G.slotW / 2 - 3, y: -G.slotH / 2 - 3, width: G.slotW + 6, height: G.slotH + 6, rx: 11 }, g);
+      svgEl('rect', { class: 'slot-bg', x: -G.slotW / 2, y: -G.slotH / 2, width: G.slotW, height: G.slotH, rx: 4 }, g);
+      svgEl('rect', { class: 'slot-ring', x: -G.slotW / 2 - 3, y: -G.slotH / 2 - 3, width: G.slotW + 6, height: G.slotH + 6, rx: 6 }, g);
       const n = svgEl('text', { class: 'slot-num', x: G.slotW / 2 - 5, y: G.slotH / 2 - 4, 'text-anchor': 'end' }, g);
       n.textContent = `${sl.aisle}-${sl.pos}`;
       const e = svgEl('text', { class: 'slot-empty-label', x: 0, y: 4, 'text-anchor': 'middle' }, g);
@@ -284,7 +292,7 @@
       const { i, j, v } = top[t];
       const [x1, y1] = slotCenter(a[i]), [x2, y2] = slotCenter(a[j]);
       const r = v / vmax;
-      html += `<path d="${curvePath(x1, y1, x2, y2, 0.14)}" stroke-width="${(0.8 + 4.2 * r).toFixed(2)}" opacity="${(0.14 + 0.5 * r).toFixed(2)}"/>`;
+      html += `<path d="${curvePath(x1, y1, x2, y2, 0.14)}" stroke-width="${(0.8 + 4.2 * r).toFixed(2)}" opacity="${(0.08 + 0.4 * r).toFixed(2)}"/>`;
     }
     gLinks.innerHTML = html;
   }
@@ -325,7 +333,7 @@
       const sku = S.inst.skus[h];
       const partners = topPartners(h, 3);
       const D = S.inst.D;
-      html = `<h4><i style="background:${famColor(sku.family)}"></i>SKU ${sku.id}</h4>` +
+      html = `<h4>${famMark(sku.family)}SKU ${sku.id}</h4>` +
         `<div class="tt-meta">${famName(sku.family)} · <strong>${fmt(sku.picks)}</strong> picks/año<br>` +
         `Pasillo ${sl.aisle} · posición ${sl.pos} · ${sl.zone}<br>Aporte al costo: <strong>${fmt(skuShare(S.assign, h))}</strong></div>` +
         `<div class="tt-sub">Co-picking más fuerte</div>`;
@@ -401,6 +409,7 @@
     el.mIter.textContent = '—';
     el.mTemp.textContent = '—';
     el.mStage.textContent = stage || 'En espera';
+    setState(stage && stage !== 'En espera' && !/iniciando/.test(stage) ? 'manual' : 'idle');
   }
 
   // ---------- Gráfico de convergencia ----------
@@ -531,6 +540,7 @@
 
   function resume() {
     S.running = true;
+    setState('running');
     updateButtons();
     cancelAnimationFrame(S.raf);
     S.raf = requestAnimationFrame(tick);
@@ -539,6 +549,7 @@
   function pause() {
     S.running = false;
     cancelAnimationFrame(S.raf);
+    setState('paused');
     updateButtons();
     setStatus(`En pausa: ${solverName(S.runSolver)}`);
   }
@@ -595,6 +606,7 @@
     renderAssignment();
     renderMetrics(snap);
     el.mStage.textContent = `${solverName(id)} · terminado`;
+    setState('done');
     el.mIter.textContent = `Completado en ${fmt(S.history.length)} pasos animados`;
     el.mProgressBar.style.width = '100%';
     el.mProgress.setAttribute('aria-valuenow', '100');
@@ -696,6 +708,7 @@
     el.moveLast.innerHTML = `<strong>${label}</strong><br>Δ costo: <span class="delta ${cls}">${fmtSigned(delta)}</span> (${delta > 0 ? '+' : ''}${fmtPct(rel)})<br>` +
       `Costo: <strong>${fmt(S.cost)}</strong> · ${vsBest}`;
     S.moves.unshift({ label, delta, cls });
+    if (!S.gen) setState('manual');
     S.moves = S.moves.slice(0, 12);
     el.moveHistory.innerHTML = S.moves.map((m) => `<li><span>${m.label}</span><span class="delta ${m.cls}">${m.delta == null ? '' : fmtSigned(m.delta)}</span></li>`).join('');
     announce(`${label}. Cambio de costo ${fmtSigned(delta)}. Costo actual ${fmt(S.cost)}.`);
@@ -759,7 +772,7 @@
   function renderCompare() {
     const rows = S.compare || [];
     if (!rows.length) {
-      el.cmpBody.innerHTML = '<tr class="empty-row"><td colspan="5">Pulsa «Comparar todos los solvers» para ejecutar las cuatro heurísticas sobre la instancia actual.</td></tr>';
+      el.cmpBody.innerHTML = '<tr class="empty-row"><td colspan="5">Sin resultados todavía. Pulsa «Comparar los 4 solvers».</td></tr>';
       return;
     }
     const done = rows.filter((r) => r.cost != null);
@@ -785,6 +798,7 @@
     discardRun();
     clearSelection(true);
     S.compareBusy = true;
+    setState('running');
     updateButtons();
     setStatus('Comparando los 4 solvers…');
     S.compare = E.SOLVERS.map((s) => ({ id: s.id, cost: null, pending: false }));
@@ -795,6 +809,7 @@
       if (inst !== S.inst) { S.compareBusy = false; updateButtons(); return; }
       if (idx >= S.compare.length) {
         S.compareBusy = false;
+        setState('done');
         updateButtons();
         renderMetrics();
         const best = S.compare.reduce((p, q) => (q.cost < p.cost ? q : p));
@@ -851,7 +866,7 @@
   function skuChip(i) {
     const s = S.inst.skus[i];
     const fam = E.FAMILIES[s.family].name;
-    return `<span class="sku-chip"><span class="sku-dot" style="background:${famColor(s.family)}"></span>SKU ${s.id} <span class="muted">· ${fam}</span></span>`;
+    return `<span class="sku-chip">${famMark(s.family)}SKU ${s.id} <span class="muted">${fam}</span></span>`;
   }
 
   function pairDistance(i, j) {
@@ -957,8 +972,8 @@
     updProfileHelp(); updSolverHelp();
 
     // Leyenda
-    el.legend.innerHTML = Object.keys(E.FAMILIES).map((k) => `<li><i style="background:${famColor(k)}"></i>${E.FAMILIES[k].name}</li>`).join('') +
-      '<li><i style="border:1.5px dashed #8a909a"></i>Ubicación vacía</li>';
+    el.legend.innerHTML = Object.keys(E.FAMILIES).map((k) => `<li>${famMark(k)}${E.FAMILIES[k].name}</li>`).join('') +
+      '<li><span class="fam-mark empty" aria-hidden="true"></span>Ubicación vacía</li>';
 
     el.density.addEventListener('input', () => { el.densityOut.textContent = el.density.value + ' %'; rebuildInstance(); });
     el.profile.addEventListener('change', () => { updProfileHelp(); rebuildInstance(); });
@@ -1011,7 +1026,7 @@
     inst.slots.forEach((sl) => {
       const [cx, cy] = slotXY(sl);
       const g = svgEl('g', { class: 'slot slot-static', transform: `translate(${cx} ${cy})` }, gSl);
-      svgEl('rect', { class: 'slot-bg', x: -G.slotW / 2, y: -G.slotH / 2, width: G.slotW, height: G.slotH, rx: 9 }, g);
+      svgEl('rect', { class: 'slot-bg', x: -G.slotW / 2, y: -G.slotH / 2, width: G.slotW, height: G.slotH, rx: 4 }, g);
       const n = svgEl('text', { class: 'slot-num', x: G.slotW / 2 - 5, y: G.slotH / 2 - 4, 'text-anchor': 'end' }, g);
       n.textContent = `${sl.aisle}-${sl.pos}`;
     });
@@ -1066,7 +1081,7 @@
     const ok = QD && Array.isArray(QD.initial) && QD.quantumV2 && Array.isArray(QD.classical) && QD.classical.length;
     if (!ok) {
       $('ad-missing').hidden = false; $('ad-body').hidden = true;
-      $('promo-track').innerHTML = '<li class="promo-item"><span class="ptag n">i</span>Resultados cuánticos no disponibles: falta quantum_data.js</li>';
+      $('intro-facts').innerHTML = '<li>Resultados cuánticos no disponibles: falta quantum_data.js</li>';
       return;
     }
     const ip = QD.instance || {};
@@ -1155,13 +1170,14 @@
     const gain = Number.isFinite(Q.v2.qiskit_additional_gain) ? Q.v2.qiskit_additional_gain * QX : NaN;
     const d = des - a.cost;
     const why = Math.abs(warm - des) < 0.5
-      ? `la aporta el arranque clásico (${fmt(warm)}); el circuito suma ${fmt(gain)}`
+      ? `viene del arranque clásico (${fmt(warm)}); el circuito suma ${fmt(gain)}`
       : `ganancia del circuito tras el arranque: ${fmt(gain)}`;
+    const stat = (mk, label, v, sub) => `<div class="stat"><dt>${mk ? `<i class="mk mk-${mk}" aria-hidden="true"></i>` : ''}${label}</dt><dd class="v">${v}</dd><dd class="s">${sub}</dd></div>`;
     $('hero-kpis').innerHTML =
-      `<div class="hk hk-ini"><span class="hk-label">Inicio</span><span class="hk-value">${fmt(ini)}</span><span class="hk-sub">asignación aleatoria de partida</span></div>` +
-      `<div class="hk hk-ant"><span class="disc">${discTxt(pctDown(ini, a.cost))}</span><span class="hk-label">Antes · clásico</span><span class="hk-value price">${fmt(a.cost)}</span><span class="hk-sub">${esc(a.label)} · ${nf2.format(a.seconds * 1000)} ms</span></div>` +
-      `<div class="hk hk-des"><span class="disc">${discTxt(pctDown(ini, des))}</span><span class="hk-label">Después · cuántico híbrido</span><span class="hk-value price">${fmt(des)}</span><span class="hk-sub">${Q.v2.qubits} qubits · simulador local · ${nf2.format(Q.v2.seconds)} s</span></div>` +
-      `<div class="hk hk-diff"><span class="disc ${d < 0 ? 'g' : 'n'}">${discTxt(pctDown(a.cost, des))}</span><span class="hk-label">Después − Antes</span><span class="hk-value ${d < 0 ? 'good' : ''}">${fmtSigned(d)}</span><span class="hk-sub">Esa diferencia ${why}.</span></div>`;
+      stat('ini', 'Inicio', fmt(ini), 'asignación aleatoria de partida') +
+      stat('ant', 'Antes · clásico', fmt(a.cost), `${discTxt(pctDown(ini, a.cost))} vs. inicio · ${esc(a.label)}, ${nf2.format(a.seconds * 1000)} ms`) +
+      stat('des', 'Después · cuántico híbrido', fmt(des), `${discTxt(pctDown(ini, des))} vs. inicio · ${Q.v2.qubits} qubits, ${nf2.format(Q.v2.seconds)} s simulados`) +
+      stat('', 'Después − Antes', fmtSigned(d), `${discTxt(pctDown(a.cost, des))} · ${why}`);
   }
 
   function benchStats() {
@@ -1172,17 +1188,16 @@
     return { b, bestClassicMean, seeds: b.seeds || [], losses: (b.seeds || []).length - (b.wins || 0) - (b.ties || 0) };
   }
 
+  // Resumen de una línea en la introducción (sobrio, solo texto).
   function renderPromo() {
     const bs = benchStats();
     const items = [
-      `<span class="ptag">${discTxt(pctDown(Q.ini.cost, Q.des.cost)).replace(/,\d/, '')}</span>Mejora vs. asignación aleatoria (${fmt(Q.ini.cost)} → ${fmt(Q.des.cost)})`,
-      `<span class="ptag n">${fmt(antes().cost)}</span>ANTES · ${esc(antes().label)}`,
-      `<span class="ptag q">${fmt(Q.des.cost)}</span>DESPUÉS · ruta cuántica híbrida`,
-      `<span class="ptag g">${Q.v2.qubits} qubits</span>${nf1.format(Q.v2.valid_fraction * 100).replace(',0', '')} % de muestras válidas`,
+      `Inicio <b>${fmt(Q.ini.cost)}</b>`,
+      `Mejor clásico <b>${fmt(antes().cost)}</b>`,
+      `Cuántico híbrido <b>${fmt(Q.des.cost)}</b> (${Q.v2.qubits} qubits, simulado)`,
     ];
-    if (bs) items.push(`<span class="ptag n">=</span>Empata con el mejor clásico (${fmt(bs.bestClassicMean)}) a igual presupuesto`);
-    items.push(`<span class="ptag">${fmt((Q.v2.qiskit_additional_gain || 0) * QX)}</span>ganancia del circuito · simulación local, sin QPU`);
-    $('promo-track').innerHTML = items.map((t) => `<li class="promo-item">${t}</li>`).join('');
+    if (bs) items.push(`Benchmark: <b>${bs.b.wins} victorias, ${bs.b.ties} empates</b> en ${bs.seeds.length} semillas`);
+    $('intro-facts').innerHTML = items.map((t) => `<li>${t}</li>`).join('');
   }
 
   function renderHonest() {
@@ -1207,8 +1222,8 @@
     $('pc-cost-ini').textContent = fmt(Q.ini.cost);
     $('pc-cost-ant').textContent = fmt(a.cost);
     $('pc-cost-des').textContent = fmt(Q.des.cost);
-    $('pc-sub-ant').innerHTML = `<span class="disc">${discTxt(pctDown(Q.ini.cost, a.cost))}</span>${movedAnt} de ${n} reubicados vs. inicio`;
-    $('pc-sub-des').innerHTML = `<span class="disc">${discTxt(pctDown(Q.ini.cost, Q.des.cost))}</span>${movedDes} de ${n} vs. inicio · <strong>${dAD}</strong> distintos de ANTES`;
+    $('pc-sub-ant').innerHTML = `${discTxt(pctDown(Q.ini.cost, a.cost))} vs. inicio · ${movedAnt} de ${n} reubicados`;
+    $('pc-sub-des').innerHTML = `${discTxt(pctDown(Q.ini.cost, Q.des.cost))} vs. inicio · ${movedDes} de ${n} reubicados · <strong>${dAD}</strong> distintos de Antes`;
     $('plan-ant').setAttribute('aria-label', `Plano ANTES (${a.label}), costo ${fmt(a.cost)}; ${movedAnt} productos reubicados respecto al inicio`);
     $('plan-des').setAttribute('aria-label', `Plano DESPUÉS (ruta cuántica híbrida), costo ${fmt(Q.des.cost)}; ${dAD} productos en distinta ubicación que en ANTES`);
     $('plan-ini').setAttribute('aria-label', `Plano de INICIO, costo ${fmt(Q.ini.cost)}`);
@@ -1298,10 +1313,11 @@
     const ro = $('morph-readout');
     if (t === 0 || t === 1) {
       const P = t === 0 ? A : B;
-      ro.innerHTML = `<span class="tag ${P.name === 'ANTES' ? 'tag-ant' : P.name === 'DESPUÉS' ? 'tag-des' : ''}">${P.name}</span><span class="mr-cost price">${fmt(P.cost)}</span>` +
-        `<span class="muted">${moving.size} productos cambian de ubicación entre ${A.name} y ${B.name}</span>`;
+      const mk = P.name === 'ANTES' ? 'ant' : P.name === 'DESPUÉS' ? 'des' : 'ini';
+      ro.innerHTML = `<span class="mr-name"><i class="mk mk-${mk}" aria-hidden="true"></i>${P.name}</span><span class="mr-cost">${fmt(P.cost)}</span>` +
+        `<span>${moving.size} productos cambian de ubicación entre ${A.name} y ${B.name}</span>`;
     } else {
-      ro.innerHTML = `<span class="tag">Transición ${pct} %</span><span class="muted">${moving.size} productos en movimiento (resaltados); las posiciones intermedias no son asignaciones reales</span>`;
+      ro.innerHTML = `<span class="mr-name">Transición ${pct} %</span><span>${moving.size} productos en movimiento (resaltados); las posiciones intermedias no son asignaciones reales</span>`;
     }
   }
 
@@ -1369,8 +1385,8 @@
         `<span class="big">${nf2.format(a.seconds * 1000)} ms</span><span class="note">${esc(a.label)}, corrida única precalculada</span>`,
         `<span class="big">${nf2.format(v2.seconds)} s</span><span class="note">en simulador · presupuesto ${nf1.format(v2.budget_seconds)} s · muestreo ${nf2.format(v2.sampling_seconds)} s</span>`],
       ['Costo final',
-        `<span class="big price">${fmt(a.cost)}</span><span class="note">${discTxt(pctDown(Q.ini.cost, a.cost))} vs. inicio</span>`,
-        `<span class="big price">${fmt(Q.des.cost)}</span><span class="note">${discTxt(pctDown(Q.ini.cost, Q.des.cost))} vs. inicio · igual al arranque clásico (${fmt(warm)})</span>`],
+        `<span class="big">${fmt(a.cost)}</span><span class="note">${discTxt(pctDown(Q.ini.cost, a.cost))} vs. inicio</span>`,
+        `<span class="big">${fmt(Q.des.cost)}</span><span class="note">${discTxt(pctDown(Q.ini.cost, Q.des.cost))} vs. inicio · igual al arranque clásico (${fmt(warm)})</span>`],
       ['Ganancia atribuible al circuito',
         'No aplica.',
         `<span class="big">${fmt(gain)} <span class="mini-pill n">sin mejora</span></span><span class="note">arranque clásico ${fmt(warm)} → final ${fmt(Q.des.cost)}</span>`],
@@ -1384,12 +1400,12 @@
     const v2 = Q.v2, inst = Q.inst, best = Math.min(...Q.classical.map((c) => c.cost));
     const step = (b, s, cls) => `<li class="step ${cls || ''}"><b>${b}</b><span>${s}</span></li>`;
     $('lanes').innerHTML =
-      `<div class="lane lane-ant"><div class="lane-label">ANTES <small>clásico</small></div><ol class="steps">` +
+      `<div class="lane lane-ant"><div class="lane-label"><i class="mk mk-ant" aria-hidden="true"></i>Antes <small>clásico</small></div><ol class="steps">` +
       step('Datos', `co-picking W y distancias D (${inst.numSkus} SKUs, ${inst.numSlots} ubicaciones)`) +
       step('Heurística en CPU', 'mueve o intercambia productos uno a uno; acepta o rechaza cada cambio') +
       step('Asignación', `mejor clásico de una corrida: <span class="s-n">${fmt(best)}</span>`, 'res') +
       `</ol></div>` +
-      `<div class="lane lane-des"><div class="lane-label">DESPUÉS <small>cuántico híbrido</small></div><ol class="steps">` +
+      `<div class="lane lane-des"><div class="lane-label"><i class="mk mk-des" aria-hidden="true"></i>Después <small>cuántico híbrido</small></div><ol class="steps">` +
       step('Datos', 'mismas W y D') +
       step('Arranque clásico', `warm start: <span class="s-n">${fmt(v2.warm_start_cost * QX)}</span>`) +
       step('QUBO de intercambios', `${v2.qubits} pares disjuntos → ${v2.qubits} qubits`, 'hot') +
@@ -1415,17 +1431,16 @@
     const order = ['local', 'sa', 'hybrid', 'qiskit', 'ablation'].filter((k) => b.summary[k]);
     $('bench-body').innerHTML = order.map((k) => {
       const s = b.summary[k], mean = s.mean_cost * QX, delta = mean - bestClassicMean;
-      const vs = Math.abs(delta) < 0.05 ? '<span class="mini-pill n">empate en media</span>'
-        : delta > 0 ? `<span class="mini-pill r">+${nf1.format(delta)} en media</span>` : `<span class="mini-pill">${nf1.format(delta)} en media</span>`;
+      const vs = Math.abs(delta) < 0.05 ? '<span class="muted">empate en media</span>'
+        : delta > 0 ? `<span class="muted">+${nf1.format(delta)} en media</span>` : `<span class="muted">${nf1.format(delta)} en media</span>`;
       return `<tr class="${k === 'qiskit' ? 'is-q' : ''}"><th scope="row" class="meth">${names[k][0]}<small>${names[k][1]}</small></th>` +
         `<td class="num">${fmt1(mean)}</td><td class="num">${fmt(s.best_cost * QX)}</td><td class="num">${nf2.format(s.std_cost * QX)}</td>` +
         `<td class="num">${nf2.format(s.mean_seconds)} s</td><td>${vs}</td></tr>`;
     }).join('');
+    const sc = (v, l) => `<div class="stat"><dt>${l}</dt><dd class="v">${v}</dd></div>`;
     $('bench-score').innerHTML =
-      `<div class="score"><span class="sv">${b.wins}</span><span class="sl">victorias del híbrido cuántico vs. mejor clásico</span></div>` +
-      `<div class="score"><span class="sv">${b.ties}</span><span class="sl">empates</span></div>` +
-      `<div class="score"><span class="sv">${losses}</span><span class="sl">semillas peores que el mejor clásico (por 1,5 en costo)</span></div>` +
-      `<div class="score"><span class="sv">${b.winsVsAblation}</span><span class="sl">victorias vs. control sin Qiskit</span></div>`;
+      sc(b.wins, 'Victorias vs. mejor clásico') + sc(b.ties, 'Empates') +
+      sc(losses, 'Semillas peores (por 1,5)') + sc(b.winsVsAblation, 'Victorias vs. control');
     const q = b.summary.qiskit;
     $('verdict').innerHTML = '<h4>Veredicto</h4>' +
       `<p>La ruta cuántica <strong>empata</strong> con el mejor clásico (${fmt(q.best_cost)} × 2 = <strong>${fmt(q.best_cost * QX)}</strong>); <strong>no lo supera</strong>. En media queda en ${fmt1(q.mean_cost * QX)} frente a ${fmt1(bestClassicMean)}.</p>` +
@@ -1435,16 +1450,77 @@
 
   function renderVersions() {
     const v1 = Q.QD.quantumV1, v2 = Q.v2;
+    const kv = (v, l) => `<div><dt>${l}</dt><dd>${v}</dd></div>`;
     const card = (v, cost, tag, cls, title) => !v ? '' :
-      `<div class="ver ${cls}"><span class="disc ${cls === 'cur' ? 'g' : 'n'} ver-tag">${tag}</span><h5>${title}</h5><span class="muted">${esc(v.label)}</span>` +
-      `<div class="vk"><div><b>${v.qubits}</b><span>qubits</span></div><div><b class="price">${fmt(cost)}</b><span>costo final</span></div>` +
-      `<div><b>${nf1.format(v.valid_fraction * 100).replace(',0', '')} %</b><span>muestras válidas</span></div>` +
-      `<div><b>${fmt(v.total_shots)}</b><span>shots totales</span></div><div><b>${fmt(v.evaluations)}</b><span>evaluaciones</span></div>` +
-      `<div><b>${nf2.format(v.seconds)} s</b><span>tiempo</span></div></div></div>`;
+      `<div class="ver ${cls}"><div class="ver-head"><h4>${title}</h4><span class="ver-tag">${tag}</span></div><p class="help">${esc(v.label)}</p>` +
+      `<dl class="vk">${kv(v.qubits, 'qubits')}${kv(fmt(cost), 'costo final')}${kv(nf1.format(v.valid_fraction * 100).replace(',0', '') + ' %', 'muestras válidas')}` +
+      `${kv(fmt(v.total_shots), 'shots totales')}${kv(fmt(v.evaluations), 'evaluaciones')}${kv(nf2.format(v.seconds) + ' s', 'tiempo')}</dl></div>`;
     $('versions').innerHTML =
       card(v1, Q.v1 && Q.v1.cost, 'versión previa', 'old', 'Primera versión') +
       card(v2, Q.des.cost, 'versión actual', 'cur', 'Versión actual: intercambios');
   }
 
+  // ---------- Navegación: sección activa en la cabecera ----------
+  function initNav() {
+    const links = Array.from(document.querySelectorAll('.topnav a[href^="#"]'));
+    if (!links.length || !('IntersectionObserver' in window)) return;
+    const map = new Map(links.map((a) => [a.getAttribute('href').slice(1), a]));
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((en) => {
+        if (!en.isIntersecting) return;
+        links.forEach((a) => a.removeAttribute('aria-current'));
+        const a = map.get(en.target.id);
+        if (a) a.setAttribute('aria-current', 'true');
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    map.forEach((_, id) => { const n = $(id); if (n) io.observe(n); });
+  }
+
+  // ---------- API mínima para el tour guiado (tour.js) ----------
+  // Todas las acciones son las mismas que dispara la interfaz y son reversibles.
+  const waitFor = (cond, timeout) => new Promise((resolve) => {
+    const t0 = performance.now();
+    const loop = () => { if (cond() || performance.now() - t0 > (timeout || 20000)) resolve(); else setTimeout(loop, 80); };
+    loop();
+  });
+  window.DemoApp = {
+    isRunning: () => !!S.gen,
+    isBusy: () => !!S.gen || S.compareBusy,
+    hasCompare: () => !!(S.compare && S.compare.every((r) => r.cost != null)),
+    // Lanza un solver con animación rápida; la promesa se resuelve al terminar.
+    runSolver(id, speed) {
+      if (S.compareBusy) return Promise.resolve();
+      if (S.gen) discardRun();
+      if (id) { el.solver.value = id; el.solver.dispatchEvent(new Event('change')); }
+      if (speed) { el.speed.value = String(speed); el.speed.dispatchEvent(new Event('input')); }
+      startRun();
+      return waitFor(() => !S.gen);
+    },
+    waitIdle: () => waitFor(() => !S.gen && !S.compareBusy),
+    // Intercambio manual de ejemplo entre dos ubicaciones ocupadas; devuelve los slots para deshacerlo.
+    exampleSwap() {
+      if (S.compareBusy) return null;
+      if (S.gen && !isComplete(S.assign)) return null;
+      const occ = occupancyOf(S.assign);
+      // Elegimos el SKU con más co-picking y su socio más fuerte: el efecto se ve en el costo.
+      let h = 0, best = -1;
+      for (let k = 0; k < S.inst.numSkus; k++) { const s = S.inst.W[k].reduce((p, q) => p + q, 0); if (s > best) { best = s; h = k; } }
+      let other = -1;
+      for (let s = S.inst.numSlots - 1; s >= 0; s--) if (occ[s] !== -1 && occ[s] !== h && S.inst.D[S.assign[h]][s] >= 8) { other = s; break; }
+      if (other < 0) other = occ.findIndex((x) => x !== -1 && x !== h);
+      const a = S.assign[h], b = other;
+      clearSelection(true);
+      onSlotActivate(a); onSlotActivate(b);
+      return [a, b];
+    },
+    undoSwap(pair) { if (!pair || S.compareBusy) return; clearSelection(true); onSlotActivate(pair[0]); onSlotActivate(pair[1]); },
+    runCompare() { if (!S.compareBusy) runCompare(); return waitFor(() => !S.compareBusy); },
+    playMorph() {
+      if (!Q.views || !Q.views.morph) return Promise.resolve();
+      return new Promise((resolve) => { setMorphT(0); setTimeout(() => animateMorph(1, resolve), reduceMotion() ? 0 : 200); });
+    },
+  };
+
   init();
+  initNav();
 })();

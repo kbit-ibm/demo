@@ -4,86 +4,291 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Optimización de Layout de Almacén — Clásico vs. Cuántico</title>
-  <meta name="description" content="Demo interactivo: asignación de SKUs a ubicaciones de almacén minimizando la distancia ponderada por co-picking. Heurísticas clásicas frente a una ruta híbrida QAOA simulada con Qiskit.">
-  <meta name="theme-color" content="#E65100">
+  <meta name="description" content="Demo interactivo: asignación de SKUs a ubicaciones de almacén minimizando la distancia ponderada por co-picking. Heurísticas clásicas frente a una ruta híbrida QAOA simulada localmente.">
+  <meta name="theme-color" content="#fbfaf8">
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="vendor/driver/driver.css">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <a class="skip-link" href="#antes-despues">Saltar a Antes vs. Después</a>
-  <a class="skip-link" href="#plano">Saltar al plano interactivo</a>
+  <a class="skip-link" href="#laboratorio">Saltar al laboratorio</a>
 
-  <!-- ===== Barra superior ===== -->
+  <!-- ===== Cabecera (sticky) ===== -->
   <header class="topbar">
     <div class="topbar-inner">
-      <div class="brand">
-        <div class="brand-mark" aria-hidden="true">
-          <svg viewBox="0 0 24 24" width="24" height="24"><path d="M3 10 12 4l9 6v10H3z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><path d="M7 20v-6h4v6M13 14h4v3h-4z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/></svg>
-        </div>
-        <div class="brand-text">
-          <h1>Optimización de Layout de Almacén — Clásico vs. Cuántico</h1>
-          <p class="subtitle"><span class="chip-w">30 SKUs</span><span class="chip-w">32 ubicaciones</span><span class="chip-w">4 pasillos × 8 posiciones</span></p>
-        </div>
-      </div>
+      <a class="brand" href="#intro">Layout de almacén <span class="brand-sub">Clásico vs. Cuántico</span></a>
       <nav class="topnav" aria-label="Secciones">
-        <a href="#antes-despues" class="nav-pill nav-hot">Antes vs. Después</a>
-        <a href="#laboratorio" class="nav-pill">Laboratorio clásico</a>
-        <a href="#relaciones" class="nav-pill">Relaciones del mes</a>
-        <a href="#como-funciona" class="nav-pill">¿Cómo funciona?</a>
+        <a href="#laboratorio">Laboratorio</a>
+        <a href="#comparativa">Comparativa</a>
+        <a href="#relaciones">Relaciones</a>
+        <a href="#antes-despues">Antes vs. Después</a>
+        <a href="#resultados">Resultados</a>
+        <a href="#como-funciona">Cómo funciona</a>
       </nav>
+      <button type="button" class="btn btn-sm btn-tour" id="btn-tour" aria-keyshortcuts="T" title="Iniciar tour guiado (atajo: T)">
+        <span class="btn-tour-full">Iniciar tour guiado</span><span class="btn-tour-short" aria-hidden="true">Tour</span><kbd aria-hidden="true">T</kbd>
+      </button>
     </div>
   </header>
 
-  <!-- ===== Franja promocional ===== -->
-  <div class="promo" aria-label="Resumen de resultados">
-    <ul class="promo-track" id="promo-track">
-      <li class="promo-item">Cargando resultados…</li>
-    </ul>
-  </div>
-
   <main id="contenido">
-    <!-- ================================================================ -->
-    <!-- ===== ANTES vs. DESPUÉS ===== -->
-    <!-- ================================================================ -->
-    <section class="ad" id="antes-despues" aria-labelledby="ad-title">
-      <div class="ad-head">
-        <span class="eyebrow">Sección destacada</span>
-        <h2 id="ad-title" class="ad-title">Antes vs. Después: <span class="t-classic">clásico</span> vs. <span class="t-quantum">cuántico</span></h2>
-        <p class="ad-lead">La misma instancia (densidad 100 %, perfil Base) resuelta de dos formas: <strong>ANTES</strong>, con una heurística clásica que mueve productos en CPU; <strong>DESPUÉS</strong>, con la propuesta híbrida que formula el problema como intercambios de pares y los decide con un circuito QAOA en Qiskit. Todos los números son resultados precalculados (simulación local), no se ejecuta nada cuántico en tu navegador.</p>
+    <!-- ===== Qué es ===== -->
+    <section class="intro" id="intro" aria-labelledby="page-title">
+      <p class="kicker">Demo interactivo · simulación local</p>
+      <h1 id="page-title">Optimización de Layout de Almacén — Clásico vs. Cuántico</h1>
+      <p class="lead">Decidir en qué ubicación va cada producto para que los que se piden juntos queden cerca. Probamos heurísticas clásicas en tu navegador y las comparamos con una ruta híbrida cuántica (QAOA) precalculada en un simulador.</p>
+      <dl class="facts">
+        <div><dt>Productos</dt><dd>30 SKUs</dd></div>
+        <div><dt>Ubicaciones</dt><dd>32</dd></div>
+        <div><dt>Plano</dt><dd>4 pasillos × 8 posiciones</dd></div>
+        <div><dt>Objetivo</dt><dd>minimizar co-picking × distancia</dd></div>
+      </dl>
+      <ul class="intro-facts" id="intro-facts" aria-label="Resultado en una línea"><li>Cargando resultados…</li></ul>
+      <p class="note" id="honest-note">Lectura honesta: los resultados cuánticos provienen de una simulación local, sin hardware cuántico. En esta instancia la ruta cuántica empata con el mejor clásico; no hay ventaja demostrada.</p>
+    </section>
+
+    <!-- ===== 1. Laboratorio ===== -->
+    <section class="section" id="laboratorio" aria-labelledby="lab-title">
+      <header class="sec-head">
+        <p class="sec-num">1</p>
+        <div>
+          <h2 id="lab-title">Laboratorio clásico</h2>
+          <p class="sec-lead">Elige la instancia, ejecuta un solver y mira cómo se reordena el plano. También puedes intercambiar productos a mano.</p>
+        </div>
+      </header>
+
+      <div class="layout">
+        <!-- Parámetros + solver -->
+        <div class="panel controls" id="controls">
+          <fieldset class="group" id="params">
+            <legend>Parámetros de la instancia</legend>
+            <div class="field">
+              <label for="density">Densidad de co-picking <output id="density-out" for="density">100 %</output></label>
+              <input type="range" id="density" min="50" max="100" step="5" value="100" aria-describedby="density-help">
+              <p class="help" id="density-help">Pares de SKUs que se piden juntos (se conservan los más fuertes).</p>
+            </div>
+            <div class="field">
+              <label for="profile">Perfil de demanda</label>
+              <select id="profile" aria-describedby="profile-help"></select>
+              <p class="help" id="profile-help"></p>
+            </div>
+            <dl class="mini-facts">
+              <div><dt>Pares con co-picking</dt><dd id="hs-pairs">—</dd></div>
+              <div><dt>Perfil</dt><dd id="hs-profile">—</dd></div>
+            </dl>
+          </fieldset>
+
+          <fieldset class="group" id="solver-block">
+            <legend>Solver</legend>
+            <div class="field">
+              <label for="solver">Algoritmo</label>
+              <select id="solver" aria-describedby="solver-help"></select>
+              <p class="help" id="solver-help"></p>
+            </div>
+            <div class="field">
+              <label for="speed">Velocidad de animación <output id="speed-out" for="speed">Media</output></label>
+              <input type="range" id="speed" min="1" max="10" step="1" value="4">
+            </div>
+            <div class="btn-row">
+              <button type="button" class="btn btn-primary" id="btn-run" aria-label="Resolver con el algoritmo seleccionado">
+                <span class="btn-icon" aria-hidden="true">▶</span><span class="btn-text">Resolver</span>
+              </button>
+              <button type="button" class="btn" id="btn-reset" aria-label="Reiniciar a la asignación de partida">Reiniciar</button>
+            </div>
+          </fieldset>
+        </div>
+
+        <!-- Plano -->
+        <section class="panel plan" id="plan-panel" aria-labelledby="plan-title">
+          <div class="panel-head">
+            <h3 id="plan-title" class="panel-title">Plano del almacén</h3>
+            <div class="plan-toggles">
+              <label class="check"><input type="checkbox" id="show-links" checked> Líneas de co-picking</label>
+              <label class="sr-only" for="link-mode">Qué representan las líneas</label>
+              <select id="link-mode" class="select-sm">
+                <option value="cost">Grosor: co-picking × distancia</option>
+                <option value="w">Grosor: co-picking</option>
+              </select>
+            </div>
+          </div>
+          <div class="plan-wrap" id="plan-wrap">
+            <div class="plan-scroll">
+              <svg id="plano" class="plano" viewBox="0 0 760 560" role="group" aria-label="Plano del almacén: 4 pasillos con 8 ubicaciones cada uno" tabindex="-1"></svg>
+            </div>
+            <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+          </div>
+          <p class="help plan-hint">Desliza el plano hacia los lados para ver los cuatro pasillos.</p>
+          <p class="plan-status" id="plan-status" aria-live="polite"></p>
+          <ul class="legend" id="legend" aria-label="Familias de productos"></ul>
+        </section>
+
+        <!-- Métricas -->
+        <section class="panel metrics" id="metrics" aria-labelledby="met-title">
+          <div class="panel-head">
+            <h3 id="met-title" class="panel-title">Métricas en vivo</h3>
+            <span class="state" id="m-state" data-state="idle">En espera</span>
+          </div>
+          <dl class="kpis">
+            <div class="kpi">
+              <dt>Costo actual</dt>
+              <dd class="kpi-value" id="m-cost">—</dd>
+              <dd class="kpi-sub" id="m-cost-sub">distancia ponderada</dd>
+            </div>
+            <div class="kpi">
+              <dt>Mejor costo</dt>
+              <dd class="kpi-value" id="m-best">—</dd>
+              <dd class="kpi-sub" id="m-best-by"></dd>
+            </div>
+            <div class="kpi">
+              <dt>Costo de partida</dt>
+              <dd class="kpi-value" id="m-start">—</dd>
+              <dd class="kpi-sub">asignación aleatoria fija</dd>
+            </div>
+            <div class="kpi">
+              <dt>Mejora vs. partida</dt>
+              <dd class="kpi-value" id="m-impr">—</dd>
+              <dd class="kpi-sub" id="m-impr-cur"></dd>
+            </div>
+          </dl>
+
+          <div class="progress-block">
+            <div class="progress-row">
+              <span id="m-stage">En espera</span>
+            </div>
+            <div class="progress" role="progressbar" aria-label="Progreso del solver" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="m-progress">
+              <div class="progress-bar" id="m-progress-bar"></div>
+            </div>
+            <div class="progress-row muted"><span id="m-iter">—</span></div>
+            <div class="progress-row muted">
+              <span>Temperatura <strong id="m-temp">—</strong></span>
+              <span>Brecha vs. mejor <strong id="m-gap">—</strong></span>
+            </div>
+          </div>
+
+          <div class="chart-block" id="chart-block">
+            <div class="chart-head">
+              <h4 class="sub-title">Convergencia</h4>
+              <div class="chart-legend" aria-hidden="true">
+                <span><i class="lg lg-cur"></i>Actual</span>
+                <span><i class="lg lg-best"></i>Mejor</span>
+                <span><i class="lg lg-base"></i>Partida</span>
+              </div>
+            </div>
+            <svg id="chart" class="chart" viewBox="0 0 360 200" role="img" aria-label="Gráfico de convergencia: costo actual y mejor costo por paso"></svg>
+          </div>
+        </section>
+
+        <!-- Modo manual -->
+        <section class="panel manual" id="manual" aria-labelledby="manual-title">
+          <h3 id="manual-title" class="panel-title">Modo manual</h3>
+          <p class="help">Haz clic en dos ubicaciones del plano para intercambiar sus SKUs (o mover uno a un hueco). Con teclado: Tab y Enter; Esc cancela.</p>
+          <div class="btn-col">
+            <button type="button" class="btn" id="btn-random" aria-label="Generar una asignación aleatoria nueva">Asignación aleatoria</button>
+            <button type="button" class="btn" id="btn-best" aria-label="Aplicar la mejor solución encontrada por los solvers" disabled>Aplicar mejor solución</button>
+          </div>
+          <div class="move-log" aria-live="polite">
+            <div class="move-last" id="move-last">Aún no hay movimientos manuales.</div>
+            <ol class="move-history" id="move-history" aria-label="Historial de movimientos"></ol>
+          </div>
+        </section>
       </div>
+    </section>
+
+    <!-- ===== 2. Comparativa ===== -->
+    <section class="section" id="comparativa" aria-labelledby="cmp-title">
+      <header class="sec-head">
+        <p class="sec-num">2</p>
+        <div>
+          <h2 id="cmp-title">Comparativa de solvers</h2>
+          <p class="sec-lead">Las cuatro heurísticas sobre la misma instancia, sin animación.</p>
+        </div>
+        <button type="button" class="btn btn-primary sec-action" id="btn-compare" aria-label="Ejecutar los cuatro solvers sobre la instancia actual y comparar">Comparar los 4 solvers</button>
+      </header>
+      <div class="panel flush">
+        <div class="table-wrap">
+          <table class="table">
+            <caption class="sr-only">Resultados de cada solver sobre la instancia actual</caption>
+            <thead>
+              <tr><th scope="col">Solver</th><th scope="col" class="num">Costo final</th><th scope="col" class="num">Mejora vs. partida</th><th scope="col" class="num">Tiempo (ms)</th><th scope="col"><span class="sr-only">Acción</span></th></tr>
+            </thead>
+            <tbody id="cmp-body">
+              <tr class="empty-row"><td colspan="5">Sin resultados todavía. Pulsa «Comparar los 4 solvers».</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 3. Relaciones del mes ===== -->
+    <section class="section" id="relaciones" aria-labelledby="pairs-title">
+      <header class="sec-head">
+        <p class="sec-num">3</p>
+        <div>
+          <h2 id="pairs-title">Relaciones de productos en un mes</h2>
+          <p class="sec-lead">Relación = canastas del mes en las que dos productos se pidieron juntos. La distancia se mide en el plano actual.</p>
+        </div>
+      </header>
+      <div class="panel" id="pairs-panel">
+        <div class="toolbar">
+          <label class="sr-only" for="pairs-family">Filtrar por familia</label>
+          <select id="pairs-family" class="select-sm"><option value="">Todas las familias</option></select>
+          <label class="sr-only" for="pairs-search">Buscar producto</label>
+          <input type="search" id="pairs-search" class="input-sm" placeholder="Buscar SKU (ej. 12)" inputmode="numeric">
+          <button type="button" class="btn btn-sm" id="btn-month" aria-label="Simular otro mes de canastas">Simular otro mes</button>
+          <p class="help toolbar-summary" id="pairs-summary"></p>
+        </div>
+        <div class="table-wrap pairs-wrap">
+          <table class="table pairs-table">
+            <caption class="sr-only">Pares de productos y número de canastas en las que aparecen juntos durante un mes</caption>
+            <thead>
+              <tr><th scope="col" class="num">#</th><th scope="col">Producto A</th><th scope="col">Producto B</th><th scope="col" class="num">Canastas juntos</th><th scope="col" class="num">% canastas</th><th scope="col" class="num">Distancia</th></tr>
+            </thead>
+            <tbody id="pairs-body"></tbody>
+          </table>
+        </div>
+        <button type="button" class="btn btn-sm btn-more" id="btn-pairs-more">Ver más pares</button>
+      </div>
+    </section>
+
+    <!-- ===== 4. Antes vs. Después ===== -->
+    <section class="section" id="antes-despues" aria-labelledby="ad-title">
+      <header class="sec-head">
+        <p class="sec-num">4</p>
+        <div>
+          <h2 id="ad-title">Antes vs. Después</h2>
+          <p class="sec-lead">Misma instancia (densidad 100 %, perfil Base). <strong>Antes</strong>: heurística clásica en CPU. <strong>Después</strong>: ruta híbrida que decide intercambios de pares con un circuito QAOA simulado. Números precalculados; nada cuántico se ejecuta en tu navegador.</p>
+        </div>
+      </header>
 
       <div class="ad-missing" id="ad-missing" hidden>
         No se encontraron los datos precalculados (<code>quantum_data.js</code>). El resto del demo funciona igual.
       </div>
 
       <div id="ad-body">
-        <!-- KPIs -->
-        <div class="hero-kpis" id="hero-kpis" aria-live="polite"></div>
-
-        <!-- Lectura honesta -->
-        <aside class="honest" aria-labelledby="honest-title">
-          <div class="honest-icon" aria-hidden="true">!</div>
-          <div>
-            <h3 id="honest-title">Lectura honesta de los resultados</h3>
-            <ul id="honest-list"></ul>
-          </div>
-        </aside>
+        <div class="panel flush">
+          <dl class="stat-strip" id="hero-kpis" aria-live="polite"></dl>
+        </div>
 
         <!-- Tres planos -->
-        <div class="card ad-card">
-          <div class="ad-card-head">
-            <h3 class="card-title">Tres planos lado a lado</h3>
-            <div class="ad-tools">
-              <div class="seg" role="group" aria-label="Solución clásica para ANTES" id="classic-seg"></div>
+        <div class="panel" id="plans-card">
+          <div class="panel-head">
+            <h3 class="panel-title">Tres planos lado a lado</h3>
+            <div class="ctl">
+              <span class="ctl-label" id="classic-seg-label">Antes =</span>
+              <div class="seg" role="group" aria-labelledby="classic-seg-label" id="classic-seg"></div>
             </div>
           </div>
-          <div class="ad-tools ad-tools-2">
-            <div class="seg seg-sm" role="group" aria-label="Qué resaltar en los planos" id="hl-seg">
-              <button type="button" class="seg-btn" data-hl="ab" aria-pressed="true">Diferencias Antes ↔ Después</button>
-              <button type="button" class="seg-btn" data-hl="init" aria-pressed="false">Reubicados vs. Inicio</button>
-              <button type="button" class="seg-btn" data-hl="none" aria-pressed="false">Sin resaltar</button>
+          <div class="toolbar">
+            <div class="ctl">
+              <span class="ctl-label" id="hl-label">Resaltar</span>
+              <div class="seg" role="group" aria-labelledby="hl-label" id="hl-seg">
+                <button type="button" class="seg-btn" data-hl="ab" aria-pressed="true">Antes ↔ Después</button>
+                <button type="button" class="seg-btn" data-hl="init" aria-pressed="false">Reubicados vs. inicio</button>
+                <button type="button" class="seg-btn" data-hl="none" aria-pressed="false">Nada</button>
+              </div>
             </div>
-            <label class="pair-pick"><span>Pareja destacada</span>
-              <select id="pair-select" aria-describedby="pair-caption"></select>
+            <label class="ctl"><span class="ctl-label">Pareja</span>
+              <select id="pair-select" class="select-sm" aria-describedby="pair-caption"></select>
             </label>
           </div>
           <p class="pair-caption" id="pair-caption" aria-live="polite"></p>
@@ -91,53 +296,53 @@
           <div class="ad-plans" id="ad-plans">
             <figure class="plan-card" data-key="ini">
               <figcaption>
-                <span class="tag tag-ini">INICIO</span>
+                <span class="pc-tag"><i class="mk mk-ini" aria-hidden="true"></i>Inicio</span>
                 <span class="pc-cost" id="pc-cost-ini">—</span>
                 <span class="pc-sub" id="pc-sub-ini">asignación aleatoria de partida</span>
               </figcaption>
               <svg class="plano plano-mini" id="plan-ini" viewBox="0 0 760 560" role="img" aria-label="Plano de inicio"></svg>
             </figure>
-            <figure class="plan-card plan-card-classic" data-key="ant">
+            <figure class="plan-card" data-key="ant">
               <figcaption>
-                <span class="tag tag-ant">ANTES · clásico</span>
+                <span class="pc-tag"><i class="mk mk-ant" aria-hidden="true"></i>Antes · clásico</span>
                 <span class="pc-cost" id="pc-cost-ant">—</span>
                 <span class="pc-sub" id="pc-sub-ant"></span>
               </figcaption>
               <svg class="plano plano-mini" id="plan-ant" viewBox="0 0 760 560" role="img" aria-label="Plano de la solución clásica"></svg>
             </figure>
-            <figure class="plan-card plan-card-quantum" data-key="des">
+            <figure class="plan-card" data-key="des">
               <figcaption>
-                <span class="tag tag-des">DESPUÉS · cuántico híbrido</span>
+                <span class="pc-tag"><i class="mk mk-des" aria-hidden="true"></i>Después · cuántico híbrido</span>
                 <span class="pc-cost" id="pc-cost-des">—</span>
                 <span class="pc-sub" id="pc-sub-des"></span>
               </figcaption>
               <svg class="plano plano-mini" id="plan-des" viewBox="0 0 760 560" role="img" aria-label="Plano de la solución cuántica híbrida"></svg>
             </figure>
           </div>
-          <p class="help">Pasa el cursor sobre un producto en cualquier plano: se destaca él y su socio de co-picking más fuerte en los tres planos, con la distancia que los separa. Los productos con <span class="diff-key">etiqueta roja</span> son los que cambiaron de ubicación según el modo de resaltado.</p>
+          <p class="help">Pasa el cursor sobre un producto: se destaca él y su socio de co-picking más fuerte en los tres planos. Los productos con <span class="diff-key">borde oscuro y ↻</span> cambiaron de ubicación según el modo de resaltado.</p>
         </div>
 
         <!-- Morph -->
-        <div class="card ad-card morph-card">
-          <div class="ad-card-head">
-            <h3 class="card-title">Desliza para transformar el plano</h3>
-            <label class="pair-pick"><span>Transición</span>
-              <select id="morph-select">
-                <option value="ant-des">ANTES → DESPUÉS</option>
-                <option value="ini-ant">INICIO → ANTES</option>
-                <option value="ini-des">INICIO → DESPUÉS</option>
+        <div class="panel" id="morph-card">
+          <div class="panel-head">
+            <h3 class="panel-title">Desliza para transformar el plano</h3>
+            <label class="ctl"><span class="ctl-label">Transición</span>
+              <select id="morph-select" class="select-sm">
+                <option value="ant-des">Antes → Después</option>
+                <option value="ini-ant">Inicio → Antes</option>
+                <option value="ini-des">Inicio → Después</option>
               </select>
             </label>
           </div>
           <div class="morph-controls">
-            <button type="button" class="pill pill-ghost" id="morph-a" aria-pressed="true">ANTES</button>
+            <button type="button" class="btn btn-sm" id="morph-a" aria-pressed="true">ANTES</button>
             <div class="morph-slider">
               <label for="morph-range" class="sr-only">Mezcla entre los dos planos</label>
               <input type="range" id="morph-range" min="0" max="1000" step="1" value="0" aria-valuetext="ANTES">
               <div class="morph-ends"><span id="morph-end-a">—</span><span id="morph-end-b">—</span></div>
             </div>
-            <button type="button" class="pill pill-ghost" id="morph-b" aria-pressed="false">DESPUÉS</button>
-            <button type="button" class="pill pill-primary" id="morph-play"><span aria-hidden="true">▶</span> Reproducir</button>
+            <button type="button" class="btn btn-sm" id="morph-b" aria-pressed="false">DESPUÉS</button>
+            <button type="button" class="btn btn-sm btn-primary" id="morph-play"><span aria-hidden="true">▶</span> Reproducir</button>
           </div>
           <div class="morph-readout" id="morph-readout" aria-live="polite"></div>
           <div class="morph-wrap">
@@ -146,273 +351,105 @@
         </div>
 
         <!-- Tabla de diferencias -->
-        <div class="card ad-card">
-          <h3 class="card-title">¿Qué cambia? Diferencias lado a lado</h3>
-          <div class="diff-table-wrap">
+        <div class="panel flush" id="diff-card">
+          <h3 class="panel-title pad">¿Qué cambia?</h3>
+          <div class="table-wrap">
             <table class="diff-table">
               <caption class="sr-only">Comparación entre la solución clásica (Antes) y la ruta cuántica híbrida (Después)</caption>
               <thead>
-                <tr><th scope="col">Aspecto</th><th scope="col" class="col-ant">ANTES · clásico</th><th scope="col" class="col-des">DESPUÉS · cuántico híbrido</th></tr>
+                <tr><th scope="col">Aspecto</th><th scope="col" class="col-ant"><i class="mk mk-ant" aria-hidden="true"></i>Antes · clásico</th><th scope="col" class="col-des"><i class="mk mk-des" aria-hidden="true"></i>Después · cuántico híbrido</th></tr>
               </thead>
               <tbody id="diff-body"></tbody>
             </table>
           </div>
         </div>
 
-        <!-- Infografía -->
-        <div class="card ad-card">
-          <h3 class="card-title">El flujo en dos carriles</h3>
+        <!-- Flujo -->
+        <div class="panel" id="flow-card">
+          <h3 class="panel-title">El flujo en dos carriles</h3>
           <div class="lanes" id="lanes"></div>
         </div>
+      </div>
+    </section>
 
-        <!-- Resultados honestos -->
-        <div class="card ad-card" id="resultados">
-          <div class="ad-card-head">
-            <h3 class="card-title">Resultados honestos: mismo presupuesto, varias semillas</h3>
-            <span class="tag tag-sim">Simulación local · sin QPU</span>
-          </div>
+    <!-- ===== 5. Resultados ===== -->
+    <section class="section" id="resultados" aria-labelledby="res-title">
+      <header class="sec-head">
+        <p class="sec-num">5</p>
+        <div>
+          <h2 id="res-title">Resultados honestos</h2>
+          <p class="sec-lead">Mismo presupuesto de tiempo, varias semillas. Simulación local, sin QPU.</p>
+        </div>
+      </header>
+      <div class="res-grid">
+        <div class="panel" id="honest">
+          <h3 class="panel-title">Lectura honesta</h3>
+          <ul class="honest-list" id="honest-list"></ul>
+        </div>
+        <div class="panel" id="bench-card">
+          <h3 class="panel-title">Benchmark</h3>
           <p class="help" id="bench-intro"></p>
-          <div class="bench-score" id="bench-score"></div>
+          <dl class="stat-strip compact" id="bench-score"></dl>
           <div class="table-wrap">
-            <table class="cmp-table bench-table">
+            <table class="table bench-table">
               <caption class="sr-only">Benchmark por método: costo medio, mejor costo, desviación y tiempo medio</caption>
               <thead>
-                <tr><th scope="col">Método</th><th scope="col" class="num">Costo medio</th><th scope="col" class="num">Mejor costo</th><th scope="col" class="num">Desviación</th><th scope="col" class="num">Tiempo medio</th><th scope="col">vs. mejor clásico</th></tr>
+                <tr><th scope="col">Método</th><th scope="col" class="num">Costo medio</th><th scope="col" class="num">Mejor</th><th scope="col" class="num">Desv.</th><th scope="col" class="num">Tiempo</th><th scope="col">vs. mejor clásico</th></tr>
               </thead>
               <tbody id="bench-body"></tbody>
             </table>
           </div>
           <div class="verdict" id="verdict"></div>
-
-          <h4 class="sub-title">Evolución de la propuesta cuántica</h4>
-          <div class="versions" id="versions"></div>
         </div>
+      </div>
+      <div class="panel">
+        <h3 class="panel-title">Evolución de la propuesta cuántica</h3>
+        <div class="versions" id="versions"></div>
       </div>
     </section>
 
-    <!-- ================================================================ -->
-    <!-- ===== LABORATORIO CLÁSICO ===== -->
-    <!-- ================================================================ -->
-    <div class="section-head" id="laboratorio">
-      <span class="eyebrow">Pruébalo tú</span>
-      <h2 class="ad-title">Laboratorio clásico interactivo</h2>
-      <p class="ad-lead">Cambia la instancia, ejecuta las heurísticas con animación, compáralas o intercambia productos a mano.</p>
-      <div class="header-stats" aria-label="Datos de la instancia">
-        <span class="stat-pill"><span class="hs-label">Pares con co-picking</span> <strong class="hs-value" id="hs-pairs">—</strong></span>
-        <span class="stat-pill"><span class="hs-label">Perfil</span> <strong class="hs-value" id="hs-profile">—</strong></span>
-      </div>
-    </div>
-
-    <div class="layout">
-      <!-- ===== Panel de parámetros ===== -->
-      <aside class="panel controls" aria-labelledby="ctrl-title">
-        <h2 id="ctrl-title" class="panel-title">Parámetros</h2>
-
-        <div class="field">
-          <label for="density">Densidad de co-picking <output id="density-out" for="density">100 %</output></label>
-          <input type="range" id="density" min="50" max="100" step="5" value="100" aria-describedby="density-help">
-          <p class="help" id="density-help">Porcentaje de pares de SKUs que se piden juntos (se conservan los más fuertes).</p>
+    <!-- ===== Cómo funciona ===== -->
+    <section class="section" id="como-funciona">
+      <details class="howto">
+        <summary><h2>Cómo funciona</h2></summary>
+        <div class="howto-body">
+          <p><strong>El problema.</strong> 30 productos (SKUs) y 32 ubicaciones en 4 pasillos: hay que decidir dónde va cada producto. Dos ubicaciones quedan vacías.</p>
+          <p><strong>Qué se minimiza.</strong> Muchos pedidos incluyen varios productos a la vez (<em>co-picking</em>). Si dos productos que se piden juntos están lejos, el operario camina más. Para cada par:</p>
+          <p class="formula">costo = Σ frecuencia con que se piden juntos × distancia entre sus ubicaciones</p>
+          <p>La distancia es en cuadrícula (Manhattan): cambiar de pasillo cuesta 4 unidades y cada posición dentro del pasillo, 1. Menor costo, menos recorrido.</p>
+          <p><strong>Por qué es difícil.</strong> Hay unas 10<sup>35</sup> formas de ubicar 30 productos en 32 lugares, así que no se pueden probar todas. Las heurísticas encuentran buenas soluciones en milisegundos:</p>
+          <ul>
+            <li><strong>Constructivo:</strong> ubica primero los productos más conectados.</li>
+            <li><strong>Búsqueda local:</strong> aplica el mejor intercambio hasta que ninguno mejora.</li>
+            <li><strong>Recocido simulado:</strong> acepta a veces empeorar para no atascarse, cada vez con menos tolerancia («temperatura»).</li>
+            <li><strong>Recocido + pulido:</strong> combina ambos.</li>
+          </ul>
+          <p><strong>¿Y lo cuántico?</strong> La propuesta híbrida parte de una buena solución clásica y pregunta: «¿qué intercambios de pares conviene aplicar a la vez?». Cada qubit decide un intercambio, así que cualquier resultado medido es una asignación válida. El circuito (QAOA) se simuló localmente con Qiskit; en esta instancia no mejoró la solución de partida.</p>
         </div>
-
-        <div class="field">
-          <label for="profile">Perfil de demanda</label>
-          <select id="profile" aria-describedby="profile-help"></select>
-          <p class="help" id="profile-help"></p>
-        </div>
-
-        <div class="field">
-          <label for="solver">Algoritmo (solver)</label>
-          <select id="solver" aria-describedby="solver-help"></select>
-          <p class="help" id="solver-help"></p>
-        </div>
-
-        <div class="field">
-          <label for="speed">Velocidad de animación <output id="speed-out" for="speed">Media</output></label>
-          <input type="range" id="speed" min="1" max="10" step="1" value="4">
-        </div>
-
-        <div class="btn-row">
-          <button type="button" class="btn btn-primary" id="btn-run" aria-label="Resolver con el algoritmo seleccionado">
-            <span class="btn-icon" aria-hidden="true">▶</span><span class="btn-text">Resolver</span>
-          </button>
-          <button type="button" class="btn" id="btn-reset" aria-label="Reiniciar a la asignación de partida">
-            <span class="btn-icon" aria-hidden="true">↺</span>Reiniciar
-          </button>
-        </div>
-
-        <hr class="sep">
-
-        <h3 class="panel-subtitle">Modo manual</h3>
-        <p class="help">Haz clic en dos ubicaciones para intercambiar sus SKUs (o mover un SKU a una ubicación vacía). También con teclado: Tab + Enter.</p>
-        <div class="btn-col">
-          <button type="button" class="btn" id="btn-random" aria-label="Generar una asignación aleatoria nueva">Asignación aleatoria</button>
-          <button type="button" class="btn" id="btn-best" aria-label="Aplicar la mejor solución encontrada por los solvers" disabled>Aplicar mejor solución</button>
-        </div>
-
-        <div class="move-log" aria-live="polite">
-          <div class="move-last" id="move-last">Aún no hay movimientos manuales.</div>
-          <ol class="move-history" id="move-history" aria-label="Historial de movimientos"></ol>
-        </div>
-
-        <hr class="sep">
-        <h3 class="panel-subtitle">Familias</h3>
-        <ul class="legend" id="legend"></ul>
-      </aside>
-
-      <!-- ===== Plano ===== -->
-      <section class="panel plan" aria-labelledby="plan-title">
-        <div class="panel-head">
-          <h2 id="plan-title" class="panel-title">Plano del almacén</h2>
-          <div class="plan-toggles">
-            <label class="switch">
-              <input type="checkbox" id="show-links" checked>
-              <span class="switch-track" aria-hidden="true"></span>
-              <span>Líneas de co-picking</span>
-            </label>
-            <label class="sr-only" for="link-mode">Qué representan las líneas</label>
-            <select id="link-mode" class="select-sm" aria-label="Qué representan las líneas">
-              <option value="cost">Grosor ∝ co-picking × distancia</option>
-              <option value="w">Grosor ∝ co-picking</option>
-            </select>
-          </div>
-        </div>
-        <div class="plan-wrap" id="plan-wrap">
-          <svg id="plano" class="plano" viewBox="0 0 760 560" role="group" aria-label="Plano del almacén: 4 pasillos con 8 ubicaciones cada uno" tabindex="-1"></svg>
-          <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
-          <div class="plan-status" id="plan-status" aria-live="polite"></div>
-        </div>
-      </section>
-
-      <!-- ===== Métricas ===== -->
-      <section class="panel metrics" aria-labelledby="met-title">
-        <h2 id="met-title" class="panel-title">Métricas en vivo</h2>
-        <div class="kpis">
-          <div class="kpi">
-            <span class="kpi-label">Costo actual</span>
-            <span class="kpi-value" id="m-cost">—</span>
-            <span class="kpi-sub" id="m-cost-sub">distancia ponderada</span>
-          </div>
-          <div class="kpi kpi-accent">
-            <span class="kpi-label">Mejor costo</span>
-            <span class="kpi-value" id="m-best">—</span>
-            <span class="kpi-sub" id="m-best-by"></span>
-          </div>
-          <div class="kpi">
-            <span class="kpi-label">Costo de partida <small>(aleatoria)</small></span>
-            <span class="kpi-value" id="m-start">—</span>
-            <span class="kpi-sub">referencia fija</span>
-          </div>
-          <div class="kpi kpi-good">
-            <span class="kpi-label">Mejora vs. aleatoria</span>
-            <span class="kpi-value good" id="m-impr">—</span>
-            <span class="kpi-sub" id="m-impr-cur"></span>
-          </div>
-        </div>
-
-        <div class="progress-block">
-          <div class="progress-row stage-row">
-            <span id="m-stage">En espera</span>
-            <span id="m-iter">—</span>
-          </div>
-          <div class="progress" role="progressbar" aria-label="Progreso del solver" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="m-progress">
-            <div class="progress-bar" id="m-progress-bar"></div>
-          </div>
-          <div class="progress-row muted">
-            <span>Temperatura: <strong id="m-temp">—</strong></span>
-            <span>Brecha vs. mejor: <strong id="m-gap">—</strong></span>
-          </div>
-        </div>
-
-        <div class="chart-block">
-          <div class="chart-head">
-            <h3 class="panel-subtitle">Convergencia</h3>
-            <div class="chart-legend" aria-hidden="true">
-              <span><i class="lg lg-cur"></i>Actual</span>
-              <span><i class="lg lg-best"></i>Mejor</span>
-              <span><i class="lg lg-base"></i>Partida</span>
-            </div>
-          </div>
-          <svg id="chart" class="chart" viewBox="0 0 360 200" role="img" aria-label="Gráfico de convergencia: costo actual y mejor costo por paso"></svg>
-        </div>
-      </section>
-
-      <!-- ===== Comparativa ===== -->
-      <section class="panel compare" aria-labelledby="cmp-title">
-        <div class="panel-head">
-          <h2 id="cmp-title" class="panel-title">Comparativa de solvers</h2>
-          <button type="button" class="btn btn-primary" id="btn-compare" aria-label="Ejecutar los cuatro solvers sobre la instancia actual y comparar">Comparar todos los solvers</button>
-        </div>
-        <div class="table-wrap">
-          <table class="cmp-table">
-            <caption class="sr-only">Resultados de cada solver sobre la instancia actual</caption>
-            <thead>
-              <tr><th scope="col">Solver</th><th scope="col" class="num">Costo final</th><th scope="col" class="num">Mejora vs. aleatoria</th><th scope="col" class="num">Tiempo (ms)</th><th scope="col"><span class="sr-only">Acción</span></th></tr>
-            </thead>
-            <tbody id="cmp-body">
-              <tr class="empty-row"><td colspan="5">Pulsa «Comparar todos los solvers» para ejecutar las cuatro heurísticas sobre la instancia actual.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ===== Relaciones del mes ===== -->
-      <section class="panel pairs" id="relaciones" aria-labelledby="pairs-title">
-        <div class="panel-head">
-          <h2 id="pairs-title" class="panel-title">Relaciones de productos en un mes</h2>
-          <div class="pairs-tools">
-            <label class="sr-only" for="pairs-family">Filtrar por familia</label>
-            <select id="pairs-family"><option value="">Todas las familias</option></select>
-            <label class="sr-only" for="pairs-search">Buscar producto</label>
-            <input type="search" id="pairs-search" placeholder="Buscar SKU (ej. 12)" inputmode="numeric">
-            <button type="button" class="btn" id="btn-month" aria-label="Simular otro mes de canastas">Simular otro mes</button>
-          </div>
-        </div>
-        <p class="help" id="pairs-summary"></p>
-        <p class="help">Relación = número de canastas del mes en las que dos productos fueron elegidos juntos.</p>
-        <div class="table-wrap pairs-wrap">
-          <table class="cmp-table pairs-table">
-            <caption class="sr-only">Pares de productos y número de canastas en las que aparecen juntos durante un mes</caption>
-            <thead>
-              <tr><th scope="col" class="num">#</th><th scope="col">Producto A</th><th scope="col">Producto B</th><th scope="col" class="num">Canastas juntos</th><th scope="col" class="num">% de canastas</th><th scope="col" class="num">Distancia en el plano</th></tr>
-            </thead>
-            <tbody id="pairs-body"></tbody>
-          </table>
-        </div>
-        <button type="button" class="btn" id="btn-pairs-more">Ver más pares</button>
-      </section>
-
-      <!-- ===== Cómo funciona ===== -->
-      <section class="panel howto" id="como-funciona">
-        <details>
-          <summary><span>¿Cómo funciona?</span></summary>
-          <div class="howto-body">
-            <p><strong>El problema.</strong> Tenemos 30 productos (SKUs) y 32 ubicaciones en 4 pasillos. Hay que decidir dónde va cada producto. Dos ubicaciones quedan vacías.</p>
-            <p><strong>Qué se minimiza.</strong> Muchos pedidos incluyen varios productos a la vez (<em>co-picking</em>). Si dos productos que se piden juntos están lejos, el operario camina más. Para cada par de productos multiplicamos:</p>
-            <p class="formula">costo = Σ <span class="f-w">frecuencia con que se piden juntos</span> × <span class="f-d">distancia entre sus ubicaciones</span></p>
-            <p>La distancia es «en cuadrícula» (Manhattan): cambiar de pasillo cuesta 4 unidades y cada posición dentro del pasillo, 1. Cuanto menor el costo, menos recorrido total.</p>
-            <p><strong>Por qué es difícil.</strong> Hay unas 10<sup>35</sup> formas de ubicar 30 productos en 32 lugares (muchas más que estrellas en el universo observable), así que no se pueden probar todas. Las heurísticas encuentran muy buenas soluciones en milisegundos:</p>
-            <ul>
-              <li><strong>Constructivo:</strong> ubica primero los productos más conectados.</li>
-              <li><strong>Búsqueda local:</strong> prueba intercambios y aplica el mejor hasta que ninguno mejora.</li>
-              <li><strong>Recocido simulado:</strong> acepta a veces empeorar para no quedarse atascado, cada vez con menos tolerancia («temperatura»).</li>
-              <li><strong>Recocido + pulido:</strong> combina ambos.</li>
-            </ul>
-            <p><strong>¿Y lo cuántico?</strong> La propuesta híbrida parte de una buena solución clásica y plantea una pregunta distinta: «¿qué intercambios de pares de productos conviene aplicar a la vez?». Cada qubit decide un intercambio, así que cualquier resultado medido sigue siendo una asignación válida. El circuito (QAOA) se simuló localmente con Qiskit; en esta instancia no mejoró la solución de partida. Detalles en la sección <a href="#antes-despues">Antes vs. Después</a>.</p>
-            <p><strong>Pruébalo tú:</strong> intercambia productos a mano y mira cómo cambia el costo frente a la mejor solución encontrada.</p>
-          </div>
-        </details>
-      </section>
-    </div>
+      </details>
+    </section>
   </main>
 
   <footer class="foot">
-    <p>Demo educativo · HTML, CSS y JavaScript sin dependencias · resultados cuánticos precalculados en simulador local (Qiskit), sin hardware cuántico real.</p>
+    <p>Demo educativo · HTML, CSS y JavaScript · resultados cuánticos precalculados en simulador local (Qiskit), sin hardware cuántico real.</p>
   </footer>
+
+  <!-- Oferta de tour en el primer ingreso -->
+  <div class="tour-offer" id="tour-offer" role="dialog" aria-labelledby="tour-offer-title" aria-describedby="tour-offer-desc" hidden>
+    <p class="tour-offer-title" id="tour-offer-title">¿Primera vez aquí?</p>
+    <p class="help" id="tour-offer-desc">Un recorrido de 11 pasos por el plano, los solvers y la comparación Antes vs. Después.</p>
+    <div class="btn-row">
+      <button type="button" class="btn btn-primary btn-sm" id="tour-offer-start">Iniciar tour</button>
+      <button type="button" class="btn btn-sm" id="tour-offer-skip">Omitir</button>
+    </div>
+  </div>
 
   <div class="sr-only" id="announcer" aria-live="polite"></div>
 
   <script src="engine.js"></script>
   <script src="quantum_data.js"></script>
   <script src="app.js"></script>
+  <script src="vendor/driver/driver.js.iife.js"></script>
+  <script src="tour.js"></script>
 </body>
 </html>
