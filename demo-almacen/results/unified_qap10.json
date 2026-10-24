@@ -1,0 +1,5675 @@
+{
+  "instance": {
+    "id": "qap10",
+    "title": "QAP10 · 10 productos / 10 posiciones",
+    "products": [
+      "Café",
+      "Azúcar",
+      "Arroz",
+      "Pasta",
+      "Salsa",
+      "Aceite",
+      "Leche",
+      "Galletas",
+      "Té",
+      "Harina"
+    ],
+    "flow": [
+      [
+        0,
+        10,
+        4,
+        8,
+        2,
+        0,
+        0,
+        12,
+        4,
+        2
+      ],
+      [
+        10,
+        0,
+        6,
+        0,
+        4,
+        4,
+        4,
+        0,
+        8,
+        10
+      ],
+      [
+        4,
+        6,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        10,
+        4
+      ],
+      [
+        8,
+        0,
+        0,
+        0,
+        10,
+        4,
+        4,
+        20,
+        0,
+        0
+      ],
+      [
+        2,
+        4,
+        0,
+        10,
+        0,
+        20,
+        0,
+        0,
+        0,
+        10
+      ],
+      [
+        0,
+        4,
+        0,
+        4,
+        20,
+        0,
+        10,
+        2,
+        2,
+        10
+      ],
+      [
+        0,
+        4,
+        0,
+        4,
+        0,
+        10,
+        0,
+        20,
+        10,
+        4
+      ],
+      [
+        12,
+        0,
+        10,
+        20,
+        0,
+        2,
+        20,
+        0,
+        0,
+        0
+      ],
+      [
+        4,
+        8,
+        10,
+        0,
+        0,
+        2,
+        10,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        10,
+        4,
+        0,
+        10,
+        10,
+        4,
+        0,
+        0,
+        0
+      ]
+    ],
+    "distances": [
+      [
+        0,
+        1,
+        2,
+        3,
+        1,
+        2,
+        3,
+        4,
+        2,
+        3
+      ],
+      [
+        1,
+        0,
+        1,
+        2,
+        2,
+        1,
+        2,
+        3,
+        3,
+        2
+      ],
+      [
+        2,
+        1,
+        0,
+        1,
+        3,
+        2,
+        1,
+        2,
+        4,
+        3
+      ],
+      [
+        3,
+        2,
+        1,
+        0,
+        4,
+        3,
+        2,
+        1,
+        5,
+        4
+      ],
+      [
+        1,
+        2,
+        3,
+        4,
+        0,
+        1,
+        2,
+        3,
+        1,
+        2
+      ],
+      [
+        2,
+        1,
+        2,
+        3,
+        1,
+        0,
+        1,
+        2,
+        2,
+        1
+      ],
+      [
+        3,
+        2,
+        1,
+        2,
+        2,
+        1,
+        0,
+        1,
+        3,
+        2
+      ],
+      [
+        4,
+        3,
+        2,
+        1,
+        3,
+        2,
+        1,
+        0,
+        4,
+        3
+      ],
+      [
+        2,
+        3,
+        4,
+        5,
+        1,
+        2,
+        3,
+        4,
+        0,
+        1
+      ],
+      [
+        3,
+        2,
+        3,
+        4,
+        2,
+        1,
+        2,
+        3,
+        1,
+        0
+      ]
+    ],
+    "positions": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        0
+      ],
+      [
+        2,
+        0
+      ],
+      [
+        3,
+        0
+      ],
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        1
+      ],
+      [
+        3,
+        1
+      ],
+      [
+        0,
+        2
+      ],
+      [
+        1,
+        2
+      ]
+    ],
+    "optimum": 340,
+    "families": [
+      "Alimentos",
+      "Alimentos",
+      "Alimentos",
+      "Alimentos",
+      "Alimentos",
+      "Alimentos",
+      "Alimentos",
+      "Alimentos",
+      "Alimentos",
+      "Alimentos"
+    ],
+    "month": null,
+    "source": "MIPLIB qap10 · archivo MPS oficial",
+    "fingerprint": "fb03a68e8b823b593b4f724412385e39c293ba5d2b7f9976c3de447417102681"
+  },
+  "initial": [
+    8,
+    0,
+    7,
+    1,
+    3,
+    6,
+    2,
+    4,
+    5,
+    9
+  ],
+  "initial_cost": 536,
+  "source": {
+    "repository": "https://github.com/kbit-ibm/demo",
+    "commit": "1d3418fa139ece281e319bf4b2451cfdfe468ec7",
+    "file": "engine.js",
+    "sha256": "f06734dc3ce7e76750efeebb1caa95a962dc80ac3fa721ee164e3e35e60df5b2",
+    "note": "Engine copied without edits. Cost normalization and hybrid start correction live in classical_bridge.js."
+  },
+  "results": [
+    {
+      "id": "greedy",
+      "label": "Constructivo (greedy)",
+      "assignment": [
+        9,
+        0,
+        8,
+        6,
+        2,
+        1,
+        4,
+        5,
+        7,
+        3
+      ],
+      "cost": 448,
+      "seconds": 0.00020539600000000035,
+      "history": [
+        {
+          "step": 10,
+          "cost": 448
+        }
+      ],
+      "start_mode": "constructive",
+      "initial_assignment": null,
+      "options": {
+        "seed": 7,
+        "iterations": 50000,
+        "restarts": 8
+      },
+      "feasible": true,
+      "improvement_percent": 16.417910447761194,
+      "gap_percent": 31.764705882352942,
+      "pairs": [
+        {
+          "i": 6,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 60,
+          "after_cost": 20,
+          "saving": 40
+        },
+        {
+          "i": 4,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 10,
+          "saving": 30
+        },
+        {
+          "i": 3,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 20,
+          "saving": 20
+        },
+        {
+          "i": 4,
+          "k": 5,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 20,
+          "saving": 20
+        },
+        {
+          "i": 0,
+          "k": 2,
+          "weight": 4,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 16,
+          "after_cost": 4,
+          "saving": 12
+        },
+        {
+          "i": 1,
+          "k": 2,
+          "weight": 6,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 24,
+          "after_cost": 12,
+          "saving": 12
+        },
+        {
+          "i": 2,
+          "k": 7,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 30,
+          "after_cost": 20,
+          "saving": 10
+        },
+        {
+          "i": 3,
+          "k": 4,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 20,
+          "after_cost": 10,
+          "saving": 10
+        },
+        {
+          "i": 0,
+          "k": 3,
+          "weight": 8,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 24,
+          "after_cost": 16,
+          "saving": 8
+        },
+        {
+          "i": 1,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 4,
+          "saving": 8
+        },
+        {
+          "i": 0,
+          "k": 4,
+          "weight": 2,
+          "before_distance": 5,
+          "after_distance": 3,
+          "before_cost": 10,
+          "after_cost": 6,
+          "saving": 4
+        },
+        {
+          "i": 1,
+          "k": 4,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 12,
+          "after_cost": 8,
+          "saving": 4
+        },
+        {
+          "i": 1,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 8,
+          "after_cost": 4,
+          "saving": 4
+        },
+        {
+          "i": 5,
+          "k": 7,
+          "weight": 2,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 4,
+          "after_cost": 2,
+          "saving": 2
+        },
+        {
+          "i": 0,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 7,
+          "weight": 12,
+          "before_distance": 1,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 12,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 30,
+          "after_cost": 30,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 4,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 8,
+          "after_cost": 8,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 1,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 8,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 1,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 8,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 8,
+          "after_cost": 12,
+          "saving": -4
+        },
+        {
+          "i": 3,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 4,
+          "after_cost": 8,
+          "saving": -4
+        },
+        {
+          "i": 5,
+          "k": 8,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 2,
+          "after_cost": 6,
+          "saving": -4
+        },
+        {
+          "i": 6,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 4,
+          "before_cost": 12,
+          "after_cost": 16,
+          "saving": -4
+        },
+        {
+          "i": 0,
+          "k": 9,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 2,
+          "after_cost": 8,
+          "saving": -6
+        },
+        {
+          "i": 2,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 5,
+          "before_cost": 12,
+          "after_cost": 20,
+          "saving": -8
+        },
+        {
+          "i": 0,
+          "k": 1,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 20,
+          "after_cost": 30,
+          "saving": -10
+        },
+        {
+          "i": 5,
+          "k": 6,
+          "weight": 10,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 10,
+          "after_cost": 20,
+          "saving": -10
+        },
+        {
+          "i": 6,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 20,
+          "after_cost": 30,
+          "saving": -10
+        },
+        {
+          "i": 1,
+          "k": 8,
+          "weight": 8,
+          "before_distance": 2,
+          "after_distance": 4,
+          "before_cost": 16,
+          "after_cost": 32,
+          "saving": -16
+        },
+        {
+          "i": 2,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 4,
+          "before_cost": 20,
+          "after_cost": 40,
+          "saving": -20
+        }
+      ]
+    },
+    {
+      "id": "local",
+      "label": "Búsqueda local",
+      "assignment": [
+        2,
+        6,
+        3,
+        0,
+        8,
+        4,
+        5,
+        1,
+        7,
+        9
+      ],
+      "cost": 340,
+      "seconds": 0.004332266,
+      "history": [
+        {
+          "step": 0,
+          "cost": 468
+        },
+        {
+          "step": 0,
+          "cost": 430
+        },
+        {
+          "step": 0,
+          "cost": 418
+        },
+        {
+          "step": 0,
+          "cost": 408
+        },
+        {
+          "step": 0,
+          "cost": 404
+        },
+        {
+          "step": 0,
+          "cost": 384
+        },
+        {
+          "step": 0,
+          "cost": 368
+        },
+        {
+          "step": 0,
+          "cost": 360
+        },
+        {
+          "step": 0,
+          "cost": 340
+        },
+        {
+          "step": 1,
+          "cost": 340
+        },
+        {
+          "step": 1,
+          "cost": 340
+        },
+        {
+          "step": 1,
+          "cost": 340
+        },
+        {
+          "step": 1,
+          "cost": 340
+        },
+        {
+          "step": 1,
+          "cost": 340
+        },
+        {
+          "step": 2,
+          "cost": 340
+        },
+        {
+          "step": 2,
+          "cost": 340
+        },
+        {
+          "step": 2,
+          "cost": 340
+        },
+        {
+          "step": 2,
+          "cost": 340
+        },
+        {
+          "step": 2,
+          "cost": 340
+        },
+        {
+          "step": 3,
+          "cost": 340
+        },
+        {
+          "step": 3,
+          "cost": 340
+        },
+        {
+          "step": 3,
+          "cost": 340
+        },
+        {
+          "step": 3,
+          "cost": 340
+        },
+        {
+          "step": 3,
+          "cost": 340
+        },
+        {
+          "step": 3,
+          "cost": 340
+        },
+        {
+          "step": 3,
+          "cost": 340
+        },
+        {
+          "step": 3,
+          "cost": 340
+        },
+        {
+          "step": 4,
+          "cost": 340
+        },
+        {
+          "step": 4,
+          "cost": 340
+        },
+        {
+          "step": 4,
+          "cost": 340
+        },
+        {
+          "step": 4,
+          "cost": 340
+        },
+        {
+          "step": 5,
+          "cost": 340
+        },
+        {
+          "step": 5,
+          "cost": 340
+        },
+        {
+          "step": 5,
+          "cost": 340
+        },
+        {
+          "step": 5,
+          "cost": 340
+        },
+        {
+          "step": 5,
+          "cost": 340
+        },
+        {
+          "step": 5,
+          "cost": 340
+        },
+        {
+          "step": 5,
+          "cost": 340
+        },
+        {
+          "step": 6,
+          "cost": 340
+        },
+        {
+          "step": 6,
+          "cost": 340
+        },
+        {
+          "step": 6,
+          "cost": 340
+        },
+        {
+          "step": 6,
+          "cost": 340
+        },
+        {
+          "step": 7,
+          "cost": 340
+        },
+        {
+          "step": 7,
+          "cost": 340
+        },
+        {
+          "step": 7,
+          "cost": 340
+        },
+        {
+          "step": 7,
+          "cost": 340
+        },
+        {
+          "step": 8,
+          "cost": 340
+        },
+        {
+          "step": 8,
+          "cost": 340
+        }
+      ],
+      "start_mode": "shared",
+      "initial_assignment": [
+        8,
+        0,
+        7,
+        1,
+        3,
+        6,
+        2,
+        4,
+        5,
+        9
+      ],
+      "options": {
+        "seed": 7,
+        "iterations": 50000,
+        "restarts": 8
+      },
+      "feasible": true,
+      "improvement_percent": 36.56716417910448,
+      "gap_percent": 0,
+      "pairs": [
+        {
+          "i": 6,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 60,
+          "after_cost": 20,
+          "saving": 40
+        },
+        {
+          "i": 4,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 10,
+          "saving": 30
+        },
+        {
+          "i": 3,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 20,
+          "saving": 20
+        },
+        {
+          "i": 4,
+          "k": 5,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 20,
+          "saving": 20
+        },
+        {
+          "i": 0,
+          "k": 2,
+          "weight": 4,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 16,
+          "after_cost": 4,
+          "saving": 12
+        },
+        {
+          "i": 1,
+          "k": 2,
+          "weight": 6,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 24,
+          "after_cost": 12,
+          "saving": 12
+        },
+        {
+          "i": 0,
+          "k": 1,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 20,
+          "after_cost": 10,
+          "saving": 10
+        },
+        {
+          "i": 1,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 30,
+          "after_cost": 20,
+          "saving": 10
+        },
+        {
+          "i": 2,
+          "k": 7,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 30,
+          "after_cost": 20,
+          "saving": 10
+        },
+        {
+          "i": 2,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 20,
+          "after_cost": 10,
+          "saving": 10
+        },
+        {
+          "i": 0,
+          "k": 3,
+          "weight": 8,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 24,
+          "after_cost": 16,
+          "saving": 8
+        },
+        {
+          "i": 1,
+          "k": 8,
+          "weight": 8,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 16,
+          "after_cost": 8,
+          "saving": 8
+        },
+        {
+          "i": 6,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 4,
+          "saving": 8
+        },
+        {
+          "i": 1,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 12,
+          "after_cost": 8,
+          "saving": 4
+        },
+        {
+          "i": 1,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 8,
+          "after_cost": 4,
+          "saving": 4
+        },
+        {
+          "i": 3,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 8,
+          "after_cost": 4,
+          "saving": 4
+        },
+        {
+          "i": 0,
+          "k": 4,
+          "weight": 2,
+          "before_distance": 5,
+          "after_distance": 4,
+          "before_cost": 10,
+          "after_cost": 8,
+          "saving": 2
+        },
+        {
+          "i": 0,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 7,
+          "weight": 12,
+          "before_distance": 1,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 12,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 8,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 8,
+          "after_cost": 8,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 4,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 12,
+          "after_cost": 12,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 4,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 5,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 4,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 6,
+          "weight": 10,
+          "before_distance": 1,
+          "after_distance": 1,
+          "before_cost": 10,
+          "after_cost": 10,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 7,
+          "weight": 2,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 4,
+          "after_cost": 4,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 6,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 8,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 9,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 2,
+          "after_cost": 6,
+          "saving": -4
+        },
+        {
+          "i": 2,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 4,
+          "before_cost": 12,
+          "after_cost": 16,
+          "saving": -4
+        },
+        {
+          "i": 3,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 4,
+          "after_cost": 8,
+          "saving": -4
+        },
+        {
+          "i": 5,
+          "k": 8,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 2,
+          "after_cost": 6,
+          "saving": -4
+        }
+      ]
+    },
+    {
+      "id": "sa",
+      "label": "Recocido simulado",
+      "assignment": [
+        2,
+        6,
+        3,
+        0,
+        8,
+        4,
+        5,
+        1,
+        7,
+        9
+      ],
+      "cost": 340,
+      "seconds": 0.004653297000000002,
+      "history": [
+        {
+          "step": 250,
+          "cost": 396
+        },
+        {
+          "step": 500,
+          "cost": 368
+        },
+        {
+          "step": 750,
+          "cost": 368
+        },
+        {
+          "step": 1000,
+          "cost": 368
+        },
+        {
+          "step": 1250,
+          "cost": 360
+        },
+        {
+          "step": 1500,
+          "cost": 360
+        },
+        {
+          "step": 1750,
+          "cost": 340
+        },
+        {
+          "step": 2000,
+          "cost": 340
+        },
+        {
+          "step": 2250,
+          "cost": 340
+        },
+        {
+          "step": 2500,
+          "cost": 340
+        },
+        {
+          "step": 2750,
+          "cost": 340
+        },
+        {
+          "step": 3000,
+          "cost": 340
+        },
+        {
+          "step": 3250,
+          "cost": 340
+        },
+        {
+          "step": 3500,
+          "cost": 340
+        },
+        {
+          "step": 3750,
+          "cost": 340
+        },
+        {
+          "step": 4000,
+          "cost": 340
+        },
+        {
+          "step": 4250,
+          "cost": 340
+        },
+        {
+          "step": 4500,
+          "cost": 340
+        },
+        {
+          "step": 4750,
+          "cost": 340
+        },
+        {
+          "step": 5000,
+          "cost": 340
+        },
+        {
+          "step": 5250,
+          "cost": 340
+        },
+        {
+          "step": 5500,
+          "cost": 340
+        },
+        {
+          "step": 5750,
+          "cost": 340
+        },
+        {
+          "step": 6000,
+          "cost": 340
+        },
+        {
+          "step": 6250,
+          "cost": 340
+        },
+        {
+          "step": 6500,
+          "cost": 340
+        },
+        {
+          "step": 6750,
+          "cost": 340
+        },
+        {
+          "step": 7000,
+          "cost": 340
+        },
+        {
+          "step": 7250,
+          "cost": 340
+        },
+        {
+          "step": 7500,
+          "cost": 340
+        },
+        {
+          "step": 7750,
+          "cost": 340
+        },
+        {
+          "step": 8000,
+          "cost": 340
+        },
+        {
+          "step": 8250,
+          "cost": 340
+        },
+        {
+          "step": 8500,
+          "cost": 340
+        },
+        {
+          "step": 8750,
+          "cost": 340
+        },
+        {
+          "step": 9000,
+          "cost": 340
+        },
+        {
+          "step": 9250,
+          "cost": 340
+        },
+        {
+          "step": 9500,
+          "cost": 340
+        },
+        {
+          "step": 9750,
+          "cost": 340
+        },
+        {
+          "step": 10000,
+          "cost": 340
+        },
+        {
+          "step": 10250,
+          "cost": 340
+        },
+        {
+          "step": 10500,
+          "cost": 340
+        },
+        {
+          "step": 10750,
+          "cost": 340
+        },
+        {
+          "step": 11000,
+          "cost": 340
+        },
+        {
+          "step": 11250,
+          "cost": 340
+        },
+        {
+          "step": 11500,
+          "cost": 340
+        },
+        {
+          "step": 11750,
+          "cost": 340
+        },
+        {
+          "step": 12000,
+          "cost": 340
+        },
+        {
+          "step": 12250,
+          "cost": 340
+        },
+        {
+          "step": 12500,
+          "cost": 340
+        },
+        {
+          "step": 12750,
+          "cost": 340
+        },
+        {
+          "step": 13000,
+          "cost": 340
+        },
+        {
+          "step": 13250,
+          "cost": 340
+        },
+        {
+          "step": 13500,
+          "cost": 340
+        },
+        {
+          "step": 13750,
+          "cost": 340
+        },
+        {
+          "step": 14000,
+          "cost": 340
+        },
+        {
+          "step": 14250,
+          "cost": 340
+        },
+        {
+          "step": 14500,
+          "cost": 340
+        },
+        {
+          "step": 14750,
+          "cost": 340
+        },
+        {
+          "step": 15000,
+          "cost": 340
+        },
+        {
+          "step": 15250,
+          "cost": 340
+        },
+        {
+          "step": 15500,
+          "cost": 340
+        },
+        {
+          "step": 15750,
+          "cost": 340
+        },
+        {
+          "step": 16000,
+          "cost": 340
+        },
+        {
+          "step": 16250,
+          "cost": 340
+        },
+        {
+          "step": 16500,
+          "cost": 340
+        },
+        {
+          "step": 16750,
+          "cost": 340
+        },
+        {
+          "step": 17000,
+          "cost": 340
+        },
+        {
+          "step": 17250,
+          "cost": 340
+        },
+        {
+          "step": 17500,
+          "cost": 340
+        },
+        {
+          "step": 17750,
+          "cost": 340
+        },
+        {
+          "step": 18000,
+          "cost": 340
+        },
+        {
+          "step": 18250,
+          "cost": 340
+        },
+        {
+          "step": 18500,
+          "cost": 340
+        },
+        {
+          "step": 18750,
+          "cost": 340
+        },
+        {
+          "step": 19000,
+          "cost": 340
+        },
+        {
+          "step": 19250,
+          "cost": 340
+        },
+        {
+          "step": 19500,
+          "cost": 340
+        },
+        {
+          "step": 19750,
+          "cost": 340
+        },
+        {
+          "step": 20000,
+          "cost": 340
+        },
+        {
+          "step": 20250,
+          "cost": 340
+        },
+        {
+          "step": 20500,
+          "cost": 340
+        },
+        {
+          "step": 20750,
+          "cost": 340
+        },
+        {
+          "step": 21000,
+          "cost": 340
+        },
+        {
+          "step": 21250,
+          "cost": 340
+        },
+        {
+          "step": 21500,
+          "cost": 340
+        },
+        {
+          "step": 21750,
+          "cost": 340
+        },
+        {
+          "step": 22000,
+          "cost": 340
+        },
+        {
+          "step": 22250,
+          "cost": 340
+        },
+        {
+          "step": 22500,
+          "cost": 340
+        },
+        {
+          "step": 22750,
+          "cost": 340
+        },
+        {
+          "step": 23000,
+          "cost": 340
+        },
+        {
+          "step": 23250,
+          "cost": 340
+        },
+        {
+          "step": 23500,
+          "cost": 340
+        },
+        {
+          "step": 23750,
+          "cost": 340
+        },
+        {
+          "step": 24000,
+          "cost": 340
+        },
+        {
+          "step": 24250,
+          "cost": 340
+        },
+        {
+          "step": 24500,
+          "cost": 340
+        },
+        {
+          "step": 24750,
+          "cost": 340
+        },
+        {
+          "step": 25000,
+          "cost": 340
+        },
+        {
+          "step": 25250,
+          "cost": 340
+        },
+        {
+          "step": 25500,
+          "cost": 340
+        },
+        {
+          "step": 25750,
+          "cost": 340
+        },
+        {
+          "step": 26000,
+          "cost": 340
+        },
+        {
+          "step": 26250,
+          "cost": 340
+        },
+        {
+          "step": 26500,
+          "cost": 340
+        },
+        {
+          "step": 26750,
+          "cost": 340
+        },
+        {
+          "step": 27000,
+          "cost": 340
+        },
+        {
+          "step": 27250,
+          "cost": 340
+        },
+        {
+          "step": 27500,
+          "cost": 340
+        },
+        {
+          "step": 27750,
+          "cost": 340
+        },
+        {
+          "step": 28000,
+          "cost": 340
+        },
+        {
+          "step": 28250,
+          "cost": 340
+        },
+        {
+          "step": 28500,
+          "cost": 340
+        },
+        {
+          "step": 28750,
+          "cost": 340
+        },
+        {
+          "step": 29000,
+          "cost": 340
+        },
+        {
+          "step": 29250,
+          "cost": 340
+        },
+        {
+          "step": 29500,
+          "cost": 340
+        },
+        {
+          "step": 29750,
+          "cost": 340
+        },
+        {
+          "step": 30000,
+          "cost": 340
+        },
+        {
+          "step": 30250,
+          "cost": 340
+        },
+        {
+          "step": 30500,
+          "cost": 340
+        },
+        {
+          "step": 30750,
+          "cost": 340
+        },
+        {
+          "step": 31000,
+          "cost": 340
+        },
+        {
+          "step": 31250,
+          "cost": 340
+        },
+        {
+          "step": 31500,
+          "cost": 340
+        },
+        {
+          "step": 31750,
+          "cost": 340
+        },
+        {
+          "step": 32000,
+          "cost": 340
+        },
+        {
+          "step": 32250,
+          "cost": 340
+        },
+        {
+          "step": 32500,
+          "cost": 340
+        },
+        {
+          "step": 32750,
+          "cost": 340
+        },
+        {
+          "step": 33000,
+          "cost": 340
+        },
+        {
+          "step": 33250,
+          "cost": 340
+        },
+        {
+          "step": 33500,
+          "cost": 340
+        },
+        {
+          "step": 33750,
+          "cost": 340
+        },
+        {
+          "step": 34000,
+          "cost": 340
+        },
+        {
+          "step": 34250,
+          "cost": 340
+        },
+        {
+          "step": 34500,
+          "cost": 340
+        },
+        {
+          "step": 34750,
+          "cost": 340
+        },
+        {
+          "step": 35000,
+          "cost": 340
+        },
+        {
+          "step": 35250,
+          "cost": 340
+        },
+        {
+          "step": 35500,
+          "cost": 340
+        },
+        {
+          "step": 35750,
+          "cost": 340
+        },
+        {
+          "step": 36000,
+          "cost": 340
+        },
+        {
+          "step": 36250,
+          "cost": 340
+        },
+        {
+          "step": 36500,
+          "cost": 340
+        },
+        {
+          "step": 36750,
+          "cost": 340
+        },
+        {
+          "step": 37000,
+          "cost": 340
+        },
+        {
+          "step": 37250,
+          "cost": 340
+        },
+        {
+          "step": 37500,
+          "cost": 340
+        },
+        {
+          "step": 37750,
+          "cost": 340
+        },
+        {
+          "step": 38000,
+          "cost": 340
+        },
+        {
+          "step": 38250,
+          "cost": 340
+        },
+        {
+          "step": 38500,
+          "cost": 340
+        },
+        {
+          "step": 38750,
+          "cost": 340
+        },
+        {
+          "step": 39000,
+          "cost": 340
+        },
+        {
+          "step": 39250,
+          "cost": 340
+        },
+        {
+          "step": 39500,
+          "cost": 340
+        },
+        {
+          "step": 39750,
+          "cost": 340
+        },
+        {
+          "step": 40000,
+          "cost": 340
+        },
+        {
+          "step": 40250,
+          "cost": 340
+        },
+        {
+          "step": 40500,
+          "cost": 340
+        },
+        {
+          "step": 40750,
+          "cost": 340
+        },
+        {
+          "step": 41000,
+          "cost": 340
+        },
+        {
+          "step": 41250,
+          "cost": 340
+        },
+        {
+          "step": 41500,
+          "cost": 340
+        },
+        {
+          "step": 41750,
+          "cost": 340
+        },
+        {
+          "step": 42000,
+          "cost": 340
+        },
+        {
+          "step": 42250,
+          "cost": 340
+        },
+        {
+          "step": 42500,
+          "cost": 340
+        },
+        {
+          "step": 42750,
+          "cost": 340
+        },
+        {
+          "step": 43000,
+          "cost": 340
+        },
+        {
+          "step": 43250,
+          "cost": 340
+        },
+        {
+          "step": 43500,
+          "cost": 340
+        },
+        {
+          "step": 43750,
+          "cost": 340
+        },
+        {
+          "step": 44000,
+          "cost": 340
+        },
+        {
+          "step": 44250,
+          "cost": 340
+        },
+        {
+          "step": 44500,
+          "cost": 340
+        },
+        {
+          "step": 44750,
+          "cost": 340
+        },
+        {
+          "step": 45000,
+          "cost": 340
+        },
+        {
+          "step": 45250,
+          "cost": 340
+        },
+        {
+          "step": 45500,
+          "cost": 340
+        },
+        {
+          "step": 45750,
+          "cost": 340
+        },
+        {
+          "step": 46000,
+          "cost": 340
+        },
+        {
+          "step": 46250,
+          "cost": 340
+        },
+        {
+          "step": 46500,
+          "cost": 340
+        },
+        {
+          "step": 46750,
+          "cost": 340
+        },
+        {
+          "step": 47000,
+          "cost": 340
+        },
+        {
+          "step": 47250,
+          "cost": 340
+        },
+        {
+          "step": 47500,
+          "cost": 340
+        },
+        {
+          "step": 47750,
+          "cost": 340
+        },
+        {
+          "step": 48000,
+          "cost": 340
+        },
+        {
+          "step": 48250,
+          "cost": 340
+        },
+        {
+          "step": 48500,
+          "cost": 340
+        },
+        {
+          "step": 48750,
+          "cost": 340
+        },
+        {
+          "step": 49000,
+          "cost": 340
+        },
+        {
+          "step": 49250,
+          "cost": 340
+        },
+        {
+          "step": 49500,
+          "cost": 340
+        },
+        {
+          "step": 49750,
+          "cost": 340
+        },
+        {
+          "step": 50000,
+          "cost": 340
+        },
+        {
+          "step": 50000,
+          "cost": 340
+        }
+      ],
+      "start_mode": "shared",
+      "initial_assignment": [
+        8,
+        0,
+        7,
+        1,
+        3,
+        6,
+        2,
+        4,
+        5,
+        9
+      ],
+      "options": {
+        "seed": 7,
+        "iterations": 50000,
+        "restarts": 8
+      },
+      "feasible": true,
+      "improvement_percent": 36.56716417910448,
+      "gap_percent": 0,
+      "pairs": [
+        {
+          "i": 6,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 60,
+          "after_cost": 20,
+          "saving": 40
+        },
+        {
+          "i": 4,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 10,
+          "saving": 30
+        },
+        {
+          "i": 3,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 20,
+          "saving": 20
+        },
+        {
+          "i": 4,
+          "k": 5,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 20,
+          "saving": 20
+        },
+        {
+          "i": 0,
+          "k": 2,
+          "weight": 4,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 16,
+          "after_cost": 4,
+          "saving": 12
+        },
+        {
+          "i": 1,
+          "k": 2,
+          "weight": 6,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 24,
+          "after_cost": 12,
+          "saving": 12
+        },
+        {
+          "i": 0,
+          "k": 1,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 20,
+          "after_cost": 10,
+          "saving": 10
+        },
+        {
+          "i": 1,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 30,
+          "after_cost": 20,
+          "saving": 10
+        },
+        {
+          "i": 2,
+          "k": 7,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 30,
+          "after_cost": 20,
+          "saving": 10
+        },
+        {
+          "i": 2,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 20,
+          "after_cost": 10,
+          "saving": 10
+        },
+        {
+          "i": 0,
+          "k": 3,
+          "weight": 8,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 24,
+          "after_cost": 16,
+          "saving": 8
+        },
+        {
+          "i": 1,
+          "k": 8,
+          "weight": 8,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 16,
+          "after_cost": 8,
+          "saving": 8
+        },
+        {
+          "i": 6,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 4,
+          "saving": 8
+        },
+        {
+          "i": 1,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 12,
+          "after_cost": 8,
+          "saving": 4
+        },
+        {
+          "i": 1,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 8,
+          "after_cost": 4,
+          "saving": 4
+        },
+        {
+          "i": 3,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 8,
+          "after_cost": 4,
+          "saving": 4
+        },
+        {
+          "i": 0,
+          "k": 4,
+          "weight": 2,
+          "before_distance": 5,
+          "after_distance": 4,
+          "before_cost": 10,
+          "after_cost": 8,
+          "saving": 2
+        },
+        {
+          "i": 0,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 7,
+          "weight": 12,
+          "before_distance": 1,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 12,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 8,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 8,
+          "after_cost": 8,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 4,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 12,
+          "after_cost": 12,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 4,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 5,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 4,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 6,
+          "weight": 10,
+          "before_distance": 1,
+          "after_distance": 1,
+          "before_cost": 10,
+          "after_cost": 10,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 7,
+          "weight": 2,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 4,
+          "after_cost": 4,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 6,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 8,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 9,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 2,
+          "after_cost": 6,
+          "saving": -4
+        },
+        {
+          "i": 2,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 4,
+          "before_cost": 12,
+          "after_cost": 16,
+          "saving": -4
+        },
+        {
+          "i": 3,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 4,
+          "after_cost": 8,
+          "saving": -4
+        },
+        {
+          "i": 5,
+          "k": 8,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 2,
+          "after_cost": 6,
+          "saving": -4
+        }
+      ]
+    },
+    {
+      "id": "hybrid",
+      "label": "Recocido + pulido",
+      "assignment": [
+        2,
+        6,
+        3,
+        0,
+        8,
+        4,
+        5,
+        1,
+        7,
+        9
+      ],
+      "cost": 340,
+      "seconds": 0.0037912229999999985,
+      "history": [
+        {
+          "step": 250,
+          "cost": 396
+        },
+        {
+          "step": 500,
+          "cost": 368
+        },
+        {
+          "step": 750,
+          "cost": 368
+        },
+        {
+          "step": 1000,
+          "cost": 368
+        },
+        {
+          "step": 1250,
+          "cost": 360
+        },
+        {
+          "step": 1500,
+          "cost": 360
+        },
+        {
+          "step": 1750,
+          "cost": 340
+        },
+        {
+          "step": 2000,
+          "cost": 340
+        },
+        {
+          "step": 2250,
+          "cost": 340
+        },
+        {
+          "step": 2500,
+          "cost": 340
+        },
+        {
+          "step": 2750,
+          "cost": 340
+        },
+        {
+          "step": 3000,
+          "cost": 340
+        },
+        {
+          "step": 3250,
+          "cost": 340
+        },
+        {
+          "step": 3500,
+          "cost": 340
+        },
+        {
+          "step": 3750,
+          "cost": 340
+        },
+        {
+          "step": 4000,
+          "cost": 340
+        },
+        {
+          "step": 4250,
+          "cost": 340
+        },
+        {
+          "step": 4500,
+          "cost": 340
+        },
+        {
+          "step": 4750,
+          "cost": 340
+        },
+        {
+          "step": 5000,
+          "cost": 340
+        },
+        {
+          "step": 5250,
+          "cost": 340
+        },
+        {
+          "step": 5500,
+          "cost": 340
+        },
+        {
+          "step": 5750,
+          "cost": 340
+        },
+        {
+          "step": 6000,
+          "cost": 340
+        },
+        {
+          "step": 6250,
+          "cost": 340
+        },
+        {
+          "step": 6500,
+          "cost": 340
+        },
+        {
+          "step": 6750,
+          "cost": 340
+        },
+        {
+          "step": 7000,
+          "cost": 340
+        },
+        {
+          "step": 7250,
+          "cost": 340
+        },
+        {
+          "step": 7500,
+          "cost": 340
+        },
+        {
+          "step": 7750,
+          "cost": 340
+        },
+        {
+          "step": 8000,
+          "cost": 340
+        },
+        {
+          "step": 8250,
+          "cost": 340
+        },
+        {
+          "step": 8500,
+          "cost": 340
+        },
+        {
+          "step": 8750,
+          "cost": 340
+        },
+        {
+          "step": 9000,
+          "cost": 340
+        },
+        {
+          "step": 9250,
+          "cost": 340
+        },
+        {
+          "step": 9500,
+          "cost": 340
+        },
+        {
+          "step": 9750,
+          "cost": 340
+        },
+        {
+          "step": 10000,
+          "cost": 340
+        },
+        {
+          "step": 10250,
+          "cost": 340
+        },
+        {
+          "step": 10500,
+          "cost": 340
+        },
+        {
+          "step": 10750,
+          "cost": 340
+        },
+        {
+          "step": 11000,
+          "cost": 340
+        },
+        {
+          "step": 11250,
+          "cost": 340
+        },
+        {
+          "step": 11500,
+          "cost": 340
+        },
+        {
+          "step": 11750,
+          "cost": 340
+        },
+        {
+          "step": 12000,
+          "cost": 340
+        },
+        {
+          "step": 12250,
+          "cost": 340
+        },
+        {
+          "step": 12500,
+          "cost": 340
+        },
+        {
+          "step": 12750,
+          "cost": 340
+        },
+        {
+          "step": 13000,
+          "cost": 340
+        },
+        {
+          "step": 13250,
+          "cost": 340
+        },
+        {
+          "step": 13500,
+          "cost": 340
+        },
+        {
+          "step": 13750,
+          "cost": 340
+        },
+        {
+          "step": 14000,
+          "cost": 340
+        },
+        {
+          "step": 14250,
+          "cost": 340
+        },
+        {
+          "step": 14500,
+          "cost": 340
+        },
+        {
+          "step": 14750,
+          "cost": 340
+        },
+        {
+          "step": 15000,
+          "cost": 340
+        },
+        {
+          "step": 15250,
+          "cost": 340
+        },
+        {
+          "step": 15500,
+          "cost": 340
+        },
+        {
+          "step": 15750,
+          "cost": 340
+        },
+        {
+          "step": 16000,
+          "cost": 340
+        },
+        {
+          "step": 16250,
+          "cost": 340
+        },
+        {
+          "step": 16500,
+          "cost": 340
+        },
+        {
+          "step": 16750,
+          "cost": 340
+        },
+        {
+          "step": 17000,
+          "cost": 340
+        },
+        {
+          "step": 17250,
+          "cost": 340
+        },
+        {
+          "step": 17500,
+          "cost": 340
+        },
+        {
+          "step": 17750,
+          "cost": 340
+        },
+        {
+          "step": 18000,
+          "cost": 340
+        },
+        {
+          "step": 18250,
+          "cost": 340
+        },
+        {
+          "step": 18500,
+          "cost": 340
+        },
+        {
+          "step": 18750,
+          "cost": 340
+        },
+        {
+          "step": 19000,
+          "cost": 340
+        },
+        {
+          "step": 19250,
+          "cost": 340
+        },
+        {
+          "step": 19500,
+          "cost": 340
+        },
+        {
+          "step": 19750,
+          "cost": 340
+        },
+        {
+          "step": 20000,
+          "cost": 340
+        },
+        {
+          "step": 20250,
+          "cost": 340
+        },
+        {
+          "step": 20500,
+          "cost": 340
+        },
+        {
+          "step": 20750,
+          "cost": 340
+        },
+        {
+          "step": 21000,
+          "cost": 340
+        },
+        {
+          "step": 21250,
+          "cost": 340
+        },
+        {
+          "step": 21500,
+          "cost": 340
+        },
+        {
+          "step": 21750,
+          "cost": 340
+        },
+        {
+          "step": 22000,
+          "cost": 340
+        },
+        {
+          "step": 22250,
+          "cost": 340
+        },
+        {
+          "step": 22500,
+          "cost": 340
+        },
+        {
+          "step": 22750,
+          "cost": 340
+        },
+        {
+          "step": 23000,
+          "cost": 340
+        },
+        {
+          "step": 23250,
+          "cost": 340
+        },
+        {
+          "step": 23500,
+          "cost": 340
+        },
+        {
+          "step": 23750,
+          "cost": 340
+        },
+        {
+          "step": 24000,
+          "cost": 340
+        },
+        {
+          "step": 24250,
+          "cost": 340
+        },
+        {
+          "step": 24500,
+          "cost": 340
+        },
+        {
+          "step": 24750,
+          "cost": 340
+        },
+        {
+          "step": 25000,
+          "cost": 340
+        },
+        {
+          "step": 25250,
+          "cost": 340
+        },
+        {
+          "step": 25500,
+          "cost": 340
+        },
+        {
+          "step": 25750,
+          "cost": 340
+        },
+        {
+          "step": 26000,
+          "cost": 340
+        },
+        {
+          "step": 26250,
+          "cost": 340
+        },
+        {
+          "step": 26500,
+          "cost": 340
+        },
+        {
+          "step": 26750,
+          "cost": 340
+        },
+        {
+          "step": 27000,
+          "cost": 340
+        },
+        {
+          "step": 27250,
+          "cost": 340
+        },
+        {
+          "step": 27500,
+          "cost": 340
+        },
+        {
+          "step": 27750,
+          "cost": 340
+        },
+        {
+          "step": 28000,
+          "cost": 340
+        },
+        {
+          "step": 28250,
+          "cost": 340
+        },
+        {
+          "step": 28500,
+          "cost": 340
+        },
+        {
+          "step": 28750,
+          "cost": 340
+        },
+        {
+          "step": 29000,
+          "cost": 340
+        },
+        {
+          "step": 29250,
+          "cost": 340
+        },
+        {
+          "step": 29500,
+          "cost": 340
+        },
+        {
+          "step": 29750,
+          "cost": 340
+        },
+        {
+          "step": 30000,
+          "cost": 340
+        },
+        {
+          "step": 30250,
+          "cost": 340
+        },
+        {
+          "step": 30500,
+          "cost": 340
+        },
+        {
+          "step": 30750,
+          "cost": 340
+        },
+        {
+          "step": 31000,
+          "cost": 340
+        },
+        {
+          "step": 31250,
+          "cost": 340
+        },
+        {
+          "step": 31500,
+          "cost": 340
+        },
+        {
+          "step": 31750,
+          "cost": 340
+        },
+        {
+          "step": 32000,
+          "cost": 340
+        },
+        {
+          "step": 32250,
+          "cost": 340
+        },
+        {
+          "step": 32500,
+          "cost": 340
+        },
+        {
+          "step": 32750,
+          "cost": 340
+        },
+        {
+          "step": 33000,
+          "cost": 340
+        },
+        {
+          "step": 33250,
+          "cost": 340
+        },
+        {
+          "step": 33500,
+          "cost": 340
+        },
+        {
+          "step": 33750,
+          "cost": 340
+        },
+        {
+          "step": 34000,
+          "cost": 340
+        },
+        {
+          "step": 34250,
+          "cost": 340
+        },
+        {
+          "step": 34500,
+          "cost": 340
+        },
+        {
+          "step": 34750,
+          "cost": 340
+        },
+        {
+          "step": 35000,
+          "cost": 340
+        },
+        {
+          "step": 35250,
+          "cost": 340
+        },
+        {
+          "step": 35500,
+          "cost": 340
+        },
+        {
+          "step": 35750,
+          "cost": 340
+        },
+        {
+          "step": 36000,
+          "cost": 340
+        },
+        {
+          "step": 36250,
+          "cost": 340
+        },
+        {
+          "step": 36500,
+          "cost": 340
+        },
+        {
+          "step": 36750,
+          "cost": 340
+        },
+        {
+          "step": 37000,
+          "cost": 340
+        },
+        {
+          "step": 37250,
+          "cost": 340
+        },
+        {
+          "step": 37500,
+          "cost": 340
+        },
+        {
+          "step": 37750,
+          "cost": 340
+        },
+        {
+          "step": 38000,
+          "cost": 340
+        },
+        {
+          "step": 38250,
+          "cost": 340
+        },
+        {
+          "step": 38500,
+          "cost": 340
+        },
+        {
+          "step": 38750,
+          "cost": 340
+        },
+        {
+          "step": 39000,
+          "cost": 340
+        },
+        {
+          "step": 39250,
+          "cost": 340
+        },
+        {
+          "step": 39500,
+          "cost": 340
+        },
+        {
+          "step": 39750,
+          "cost": 340
+        },
+        {
+          "step": 40000,
+          "cost": 340
+        },
+        {
+          "step": 40250,
+          "cost": 340
+        },
+        {
+          "step": 40500,
+          "cost": 340
+        },
+        {
+          "step": 40750,
+          "cost": 340
+        },
+        {
+          "step": 41000,
+          "cost": 340
+        },
+        {
+          "step": 41250,
+          "cost": 340
+        },
+        {
+          "step": 41500,
+          "cost": 340
+        },
+        {
+          "step": 41750,
+          "cost": 340
+        },
+        {
+          "step": 42000,
+          "cost": 340
+        },
+        {
+          "step": 42250,
+          "cost": 340
+        },
+        {
+          "step": 42500,
+          "cost": 340
+        },
+        {
+          "step": 42750,
+          "cost": 340
+        },
+        {
+          "step": 43000,
+          "cost": 340
+        },
+        {
+          "step": 43250,
+          "cost": 340
+        },
+        {
+          "step": 43500,
+          "cost": 340
+        },
+        {
+          "step": 43750,
+          "cost": 340
+        },
+        {
+          "step": 44000,
+          "cost": 340
+        },
+        {
+          "step": 44250,
+          "cost": 340
+        },
+        {
+          "step": 44500,
+          "cost": 340
+        },
+        {
+          "step": 44750,
+          "cost": 340
+        },
+        {
+          "step": 45000,
+          "cost": 340
+        },
+        {
+          "step": 45250,
+          "cost": 340
+        },
+        {
+          "step": 45500,
+          "cost": 340
+        },
+        {
+          "step": 45750,
+          "cost": 340
+        },
+        {
+          "step": 46000,
+          "cost": 340
+        },
+        {
+          "step": 46250,
+          "cost": 340
+        },
+        {
+          "step": 46500,
+          "cost": 340
+        },
+        {
+          "step": 46750,
+          "cost": 340
+        },
+        {
+          "step": 47000,
+          "cost": 340
+        },
+        {
+          "step": 47250,
+          "cost": 340
+        },
+        {
+          "step": 47500,
+          "cost": 340
+        },
+        {
+          "step": 47750,
+          "cost": 340
+        },
+        {
+          "step": 48000,
+          "cost": 340
+        },
+        {
+          "step": 48250,
+          "cost": 340
+        },
+        {
+          "step": 48500,
+          "cost": 340
+        },
+        {
+          "step": 48750,
+          "cost": 340
+        },
+        {
+          "step": 49000,
+          "cost": 340
+        },
+        {
+          "step": 49250,
+          "cost": 340
+        },
+        {
+          "step": 49500,
+          "cost": 340
+        },
+        {
+          "step": 49750,
+          "cost": 340
+        },
+        {
+          "step": 50000,
+          "cost": 340
+        },
+        {
+          "step": 50000,
+          "cost": 340
+        },
+        {
+          "step": 1,
+          "cost": 340
+        },
+        {
+          "step": 1,
+          "cost": 340
+        }
+      ],
+      "start_mode": "shared",
+      "initial_assignment": [
+        8,
+        0,
+        7,
+        1,
+        3,
+        6,
+        2,
+        4,
+        5,
+        9
+      ],
+      "options": {
+        "seed": 7,
+        "iterations": 50000,
+        "restarts": 1
+      },
+      "feasible": true,
+      "improvement_percent": 36.56716417910448,
+      "gap_percent": 0,
+      "pairs": [
+        {
+          "i": 6,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 60,
+          "after_cost": 20,
+          "saving": 40
+        },
+        {
+          "i": 4,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 10,
+          "saving": 30
+        },
+        {
+          "i": 3,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 20,
+          "saving": 20
+        },
+        {
+          "i": 4,
+          "k": 5,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 20,
+          "saving": 20
+        },
+        {
+          "i": 0,
+          "k": 2,
+          "weight": 4,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 16,
+          "after_cost": 4,
+          "saving": 12
+        },
+        {
+          "i": 1,
+          "k": 2,
+          "weight": 6,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 24,
+          "after_cost": 12,
+          "saving": 12
+        },
+        {
+          "i": 0,
+          "k": 1,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 20,
+          "after_cost": 10,
+          "saving": 10
+        },
+        {
+          "i": 1,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 30,
+          "after_cost": 20,
+          "saving": 10
+        },
+        {
+          "i": 2,
+          "k": 7,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 30,
+          "after_cost": 20,
+          "saving": 10
+        },
+        {
+          "i": 2,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 20,
+          "after_cost": 10,
+          "saving": 10
+        },
+        {
+          "i": 0,
+          "k": 3,
+          "weight": 8,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 24,
+          "after_cost": 16,
+          "saving": 8
+        },
+        {
+          "i": 1,
+          "k": 8,
+          "weight": 8,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 16,
+          "after_cost": 8,
+          "saving": 8
+        },
+        {
+          "i": 6,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 4,
+          "saving": 8
+        },
+        {
+          "i": 1,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 12,
+          "after_cost": 8,
+          "saving": 4
+        },
+        {
+          "i": 1,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 8,
+          "after_cost": 4,
+          "saving": 4
+        },
+        {
+          "i": 3,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 8,
+          "after_cost": 4,
+          "saving": 4
+        },
+        {
+          "i": 0,
+          "k": 4,
+          "weight": 2,
+          "before_distance": 5,
+          "after_distance": 4,
+          "before_cost": 10,
+          "after_cost": 8,
+          "saving": 2
+        },
+        {
+          "i": 0,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 7,
+          "weight": 12,
+          "before_distance": 1,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 12,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 8,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 8,
+          "after_cost": 8,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 4,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 12,
+          "after_cost": 12,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 4,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 5,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 4,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 6,
+          "weight": 10,
+          "before_distance": 1,
+          "after_distance": 1,
+          "before_cost": 10,
+          "after_cost": 10,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 7,
+          "weight": 2,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 4,
+          "after_cost": 4,
+          "saving": 0
+        },
+        {
+          "i": 5,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 6,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 8,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 9,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 2,
+          "after_cost": 6,
+          "saving": -4
+        },
+        {
+          "i": 2,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 4,
+          "before_cost": 12,
+          "after_cost": 16,
+          "saving": -4
+        },
+        {
+          "i": 3,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 4,
+          "after_cost": 8,
+          "saving": -4
+        },
+        {
+          "i": 5,
+          "k": 8,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 2,
+          "after_cost": 6,
+          "saving": -4
+        }
+      ]
+    },
+    {
+      "id": "qiskit",
+      "label": "Híbrido QAOA · Qiskit",
+      "assignment": [
+        5,
+        7,
+        8,
+        4,
+        6,
+        3,
+        1,
+        0,
+        9,
+        2
+      ],
+      "cost": 406,
+      "seconds": 1.1400635639947723,
+      "start_mode": "shared",
+      "history": [
+        {
+          "step": 0,
+          "cost": 536
+        },
+        {
+          "step": 1,
+          "cost": 478
+        },
+        {
+          "step": 2,
+          "cost": 444
+        },
+        {
+          "step": 3,
+          "cost": 444
+        },
+        {
+          "step": 4,
+          "cost": 426
+        },
+        {
+          "step": 5,
+          "cost": 418
+        },
+        {
+          "step": 6,
+          "cost": 418
+        },
+        {
+          "step": 7,
+          "cost": 406
+        },
+        {
+          "step": 8,
+          "cost": 406
+        }
+      ],
+      "setup_seconds": 0.0005139700151630677,
+      "training_seconds": 1.0846612970199203,
+      "sampling_seconds": 0.05442600900278194,
+      "valid_fraction": 0.9561767578125,
+      "total_shots": 8192,
+      "evaluations": 320,
+      "qubits": 5,
+      "accepted_blocks": 5,
+      "blocks": [
+        {
+          "round": 1,
+          "products": [
+            8,
+            0,
+            7,
+            1
+          ],
+          "before": 536,
+          "after": 478,
+          "accepted": true,
+          "assignment_before": [
+            8,
+            0,
+            7,
+            1,
+            3,
+            6,
+            2,
+            4,
+            5,
+            9
+          ],
+          "assignment_after": [
+            4,
+            8,
+            7,
+            1,
+            3,
+            6,
+            2,
+            0,
+            5,
+            9
+          ],
+          "qubits": 5,
+          "candidate_count": 24,
+          "empty_slot_offered": null,
+          "counts": {
+            "10000": 56,
+            "10001": 46,
+            "10010": 51,
+            "10011": 11,
+            "10100": 26,
+            "10101": 61,
+            "10110": 48,
+            "10111": 50,
+            "11000": 38,
+            "11001": 23,
+            "11010": 32,
+            "11011": 13,
+            "11100": 63,
+            "11101": 14,
+            "11110": 47,
+            "11111": 18,
+            "01011": 48,
+            "01100": 48,
+            "00000": 7,
+            "01001": 77,
+            "00100": 9,
+            "00011": 21,
+            "00001": 9,
+            "01010": 56,
+            "01111": 59,
+            "01000": 20,
+            "00110": 10,
+            "01101": 19,
+            "01110": 21,
+            "00111": 11,
+            "00101": 8,
+            "00010": 4
+          },
+          "valid_fraction": 0.7578125,
+          "expected_penalized_energy": 557.9471647831128,
+          "penalty": 686,
+          "angles": [
+            -0.43178658140370946,
+            2.474096509024136,
+            3.4106890678854027,
+            1.4261660111291634
+          ],
+          "optimizer_success": false,
+          "optimizer_message": "Return from COBYLA because the objective function has been evaluated MAXFUN times.",
+          "training_energy_history": [
+            559.8335439324729,
+            581.2254028560624,
+            560.0533645534653,
+            559.4859068233944,
+            566.0022642157668,
+            562.7348778055158,
+            574.8224933734832,
+            559.4499106887263,
+            563.1625886546138,
+            559.551056317934,
+            560.4283727136202,
+            559.4551035341037,
+            559.9223449972997,
+            559.6868250162536,
+            559.4457349411206,
+            559.4343286407986,
+            559.4083132114971,
+            559.3586163562328,
+            559.2747961882367,
+            559.110127533671,
+            558.9159719504203,
+            558.6276327513035,
+            559.2221595240476,
+            558.8072504493632,
+            558.6953515215364,
+            558.5909130242712,
+            558.5391939359652,
+            558.5964209171175,
+            558.5946307909663,
+            558.4567578341461,
+            558.3818428232513,
+            558.3165840726202,
+            558.2976722140415,
+            558.2531090606218,
+            558.1953550106416,
+            558.1546013854454,
+            558.095146671385,
+            558.0031094792926,
+            558.0753484808571,
+            557.9471647831128
+          ]
+        },
+        {
+          "round": 1,
+          "products": [
+            1,
+            3,
+            6,
+            2
+          ],
+          "before": 478,
+          "after": 444,
+          "accepted": true,
+          "assignment_before": [
+            4,
+            8,
+            7,
+            1,
+            3,
+            6,
+            2,
+            0,
+            5,
+            9
+          ],
+          "assignment_after": [
+            4,
+            7,
+            8,
+            2,
+            3,
+            6,
+            1,
+            0,
+            5,
+            9
+          ],
+          "qubits": 5,
+          "candidate_count": 24,
+          "empty_slot_offered": null,
+          "counts": {
+            "10000": 42,
+            "10001": 34,
+            "10010": 49,
+            "10011": 53,
+            "10100": 62,
+            "10101": 76,
+            "10110": 57,
+            "10111": 43,
+            "11000": 1,
+            "11001": 2,
+            "11010": 2,
+            "11100": 3,
+            "11101": 4,
+            "11110": 4,
+            "11111": 2,
+            "01011": 77,
+            "01100": 55,
+            "01101": 57,
+            "00101": 10,
+            "01110": 47,
+            "01001": 43,
+            "01010": 61,
+            "01000": 64,
+            "00000": 22,
+            "00111": 8,
+            "00100": 19,
+            "00010": 34,
+            "00110": 9,
+            "01111": 50,
+            "00011": 21,
+            "00001": 13
+          },
+          "valid_fraction": 0.982421875,
+          "expected_penalized_energy": 489.86232523180826,
+          "penalty": 616,
+          "angles": [
+            1.342892304948382,
+            0.8206298736429474,
+            1.4844727363790404,
+            1.2631630462154766
+          ],
+          "optimizer_success": false,
+          "optimizer_message": "Return from COBYLA because the objective function has been evaluated MAXFUN times.",
+          "training_energy_history": [
+            514.373170257644,
+            516.8177225082468,
+            514.9773229829398,
+            508.51119186438194,
+            534.7795208983708,
+            522.9212691042812,
+            547.1066273050524,
+            508.6321629579725,
+            498.258485325402,
+            499.5047951938439,
+            498.1525959356011,
+            497.7703008803842,
+            503.98089086282624,
+            498.64959656373435,
+            494.6444400219781,
+            495.19200730807336,
+            494.3328212747248,
+            494.0840294704533,
+            494.0745733779944,
+            494.0682140857529,
+            493.8553511733164,
+            493.4991121958056,
+            492.9412517851698,
+            493.76398752425064,
+            492.43584543633943,
+            492.284136351145,
+            492.17647344101766,
+            491.99324845903385,
+            492.08389808372726,
+            491.9723608134183,
+            491.80999710395713,
+            491.53046308948257,
+            491.1252110566667,
+            490.97549587802644,
+            490.695430621179,
+            490.2518968192273,
+            490.3952424854615,
+            490.233601575487,
+            489.96993324497015,
+            489.86232523180826
+          ]
+        },
+        {
+          "round": 1,
+          "products": [
+            2,
+            4,
+            5,
+            9
+          ],
+          "before": 444,
+          "after": 444,
+          "accepted": false,
+          "assignment_before": [
+            4,
+            7,
+            8,
+            2,
+            3,
+            6,
+            1,
+            0,
+            5,
+            9
+          ],
+          "assignment_after": [
+            4,
+            7,
+            8,
+            2,
+            3,
+            6,
+            1,
+            0,
+            5,
+            9
+          ],
+          "qubits": 5,
+          "candidate_count": 24,
+          "empty_slot_offered": null,
+          "counts": {
+            "10000": 8,
+            "10001": 6,
+            "10010": 6,
+            "10011": 12,
+            "10100": 2,
+            "10101": 34,
+            "10110": 11,
+            "10111": 22,
+            "11000": 3,
+            "11001": 2,
+            "11010": 1,
+            "11011": 4,
+            "11100": 1,
+            "11101": 2,
+            "11110": 1,
+            "11111": 2,
+            "01111": 13,
+            "00010": 140,
+            "00101": 81,
+            "01000": 22,
+            "00111": 102,
+            "01101": 14,
+            "00000": 111,
+            "00011": 106,
+            "00100": 83,
+            "01011": 18,
+            "01001": 33,
+            "00001": 109,
+            "00110": 46,
+            "01010": 22,
+            "01110": 4,
+            "01100": 3
+          },
+          "valid_fraction": 0.984375,
+          "expected_penalized_energy": 468.8191759233763,
+          "penalty": 604,
+          "angles": [
+            1.606795705580431,
+            2.08881637497683,
+            2.615895843315409,
+            2.8705701574053495
+          ],
+          "optimizer_success": false,
+          "optimizer_message": "Return from COBYLA because the objective function has been evaluated MAXFUN times.",
+          "training_energy_history": [
+            483.24593972590236,
+            495.3531903775919,
+            495.32156494365074,
+            489.6892206826201,
+            532.4899900326352,
+            509.0354754281005,
+            480.4930542258544,
+            473.0486779261874,
+            485.2464782991156,
+            473.0720358600993,
+            472.3699366504395,
+            474.0726820160242,
+            472.3351359127172,
+            472.04201017168435,
+            471.67284351016986,
+            471.5785086761227,
+            471.3930816207865,
+            472.40416104857167,
+            471.52481982222736,
+            471.4235237258519,
+            471.2590271430487,
+            471.5425211243057,
+            471.47649381716235,
+            471.2305470698785,
+            471.23902386112235,
+            471.25942136698325,
+            471.18101151216945,
+            471.1345211140233,
+            471.0817295673167,
+            471.0299455660066,
+            471.0099106346346,
+            470.95905198982007,
+            470.953582530995,
+            470.91730091735974,
+            470.84891250122666,
+            470.72254975436203,
+            470.4844594202189,
+            470.00180548281804,
+            469.9205594592883,
+            468.8191759233763
+          ]
+        },
+        {
+          "round": 1,
+          "products": [
+            9,
+            8,
+            0,
+            7
+          ],
+          "before": 444,
+          "after": 426,
+          "accepted": true,
+          "assignment_before": [
+            4,
+            7,
+            8,
+            2,
+            3,
+            6,
+            1,
+            0,
+            5,
+            9
+          ],
+          "assignment_after": [
+            4,
+            7,
+            8,
+            2,
+            3,
+            6,
+            1,
+            0,
+            9,
+            5
+          ],
+          "qubits": 5,
+          "candidate_count": 24,
+          "empty_slot_offered": null,
+          "counts": {
+            "10000": 30,
+            "10001": 8,
+            "10010": 17,
+            "10011": 29,
+            "10100": 2,
+            "10101": 16,
+            "10110": 25,
+            "10111": 15,
+            "11000": 1,
+            "11001": 4,
+            "11010": 13,
+            "11011": 2,
+            "11100": 3,
+            "11101": 6,
+            "11110": 2,
+            "11111": 7,
+            "00010": 102,
+            "01110": 19,
+            "00001": 62,
+            "00110": 121,
+            "00111": 62,
+            "00100": 90,
+            "00011": 85,
+            "01011": 14,
+            "01010": 9,
+            "01100": 24,
+            "00101": 84,
+            "01101": 26,
+            "00000": 110,
+            "01111": 7,
+            "01000": 22,
+            "01001": 7
+          },
+          "valid_fraction": 0.962890625,
+          "expected_penalized_energy": 463.1524122895876,
+          "penalty": 578,
+          "angles": [
+            2.47340170614811,
+            4.047584103585396,
+            1.0102308394397606,
+            1.6991322721861408
+          ],
+          "optimizer_success": false,
+          "optimizer_message": "Return from COBYLA because the objective function has been evaluated MAXFUN times.",
+          "training_energy_history": [
+            567.7568189750625,
+            552.9024665852529,
+            539.1286568967822,
+            515.8337553327466,
+            473.290672219997,
+            539.1565266438446,
+            476.10164576899996,
+            473.3337535644384,
+            488.41585475058037,
+            472.2593966464856,
+            471.7026518223129,
+            471.1599186156284,
+            472.64921924375085,
+            470.93041693699377,
+            470.6713454797865,
+            472.18005399514624,
+            469.1410325322151,
+            470.78021026604955,
+            469.05788326113566,
+            468.83914132445113,
+            468.7810289757352,
+            468.4832340400071,
+            468.2136993969373,
+            467.8354091011584,
+            467.4425967858113,
+            466.9637072280784,
+            466.1295038067586,
+            468.2960393167142,
+            465.4621857310327,
+            465.746181592965,
+            465.5111845415104,
+            465.2569355115627,
+            465.4057191838154,
+            465.46259912359847,
+            464.89197190048617,
+            464.3292227566081,
+            463.26467390535595,
+            463.48179072492525,
+            463.1524122895876,
+            463.39146832837014
+          ]
+        },
+        {
+          "round": 2,
+          "products": [
+            9,
+            2,
+            3,
+            0
+          ],
+          "before": 426,
+          "after": 418,
+          "accepted": true,
+          "assignment_before": [
+            4,
+            7,
+            8,
+            2,
+            3,
+            6,
+            1,
+            0,
+            9,
+            5
+          ],
+          "assignment_after": [
+            5,
+            7,
+            8,
+            4,
+            3,
+            6,
+            1,
+            0,
+            9,
+            2
+          ],
+          "qubits": 5,
+          "candidate_count": 24,
+          "empty_slot_offered": null,
+          "counts": {
+            "10000": 46,
+            "10001": 44,
+            "10010": 17,
+            "10011": 30,
+            "10100": 29,
+            "10101": 42,
+            "10110": 18,
+            "10111": 17,
+            "11000": 1,
+            "11010": 1,
+            "11011": 1,
+            "11100": 1,
+            "11110": 1,
+            "11111": 1,
+            "00001": 78,
+            "01011": 28,
+            "01101": 68,
+            "00000": 87,
+            "01110": 58,
+            "00101": 76,
+            "00100": 61,
+            "01100": 37,
+            "00011": 58,
+            "01010": 15,
+            "01001": 9,
+            "00111": 46,
+            "01111": 58,
+            "00010": 46,
+            "01000": 9,
+            "00110": 41
+          },
+          "valid_fraction": 0.994140625,
+          "expected_penalized_energy": 461.4079836731627,
+          "penalty": 626,
+          "angles": [
+            1.9594739923199227,
+            0.4661945628776371,
+            0.9433480199631287,
+            1.7669726132165797
+          ],
+          "optimizer_success": false,
+          "optimizer_message": "Return from COBYLA because the objective function has been evaluated MAXFUN times.",
+          "training_energy_history": [
+            571.2599464001532,
+            564.5739475276491,
+            548.925596935864,
+            592.8625017557313,
+            513.038487414056,
+            516.9896432824778,
+            512.727868919378,
+            514.2114918610233,
+            513.0227793110743,
+            511.6331461101016,
+            508.61358003228617,
+            504.05137027160885,
+            491.4542020095189,
+            497.2824884304847,
+            486.6899645970468,
+            482.2993945435198,
+            462.91419180242184,
+            556.1414411086585,
+            470.7058387850824,
+            463.23763916167337,
+            461.6491359185339,
+            462.93138502422005,
+            461.69969638312443,
+            465.509499218265,
+            461.69659730092457,
+            461.5124389619426,
+            461.54239728074964,
+            461.51240740860624,
+            461.5447524841151,
+            461.5311654367614,
+            461.5034079728882,
+            461.51177139108376,
+            461.5116506828523,
+            461.4860970128207,
+            461.5264037475179,
+            461.4714664067792,
+            461.45933889415863,
+            461.4354870957837,
+            461.4079836731627,
+            461.4361011425637
+          ]
+        },
+        {
+          "round": 2,
+          "products": [
+            0,
+            8,
+            1,
+            6
+          ],
+          "before": 418,
+          "after": 418,
+          "accepted": false,
+          "assignment_before": [
+            5,
+            7,
+            8,
+            4,
+            3,
+            6,
+            1,
+            0,
+            9,
+            2
+          ],
+          "assignment_after": [
+            5,
+            7,
+            8,
+            4,
+            3,
+            6,
+            1,
+            0,
+            9,
+            2
+          ],
+          "qubits": 5,
+          "candidate_count": 24,
+          "empty_slot_offered": null,
+          "counts": {
+            "10000": 4,
+            "10001": 27,
+            "10010": 46,
+            "10011": 52,
+            "10100": 64,
+            "10101": 109,
+            "10110": 47,
+            "10111": 57,
+            "01000": 79,
+            "00110": 39,
+            "00101": 10,
+            "01001": 44,
+            "00111": 18,
+            "00010": 40,
+            "00000": 73,
+            "01110": 68,
+            "01011": 51,
+            "01100": 29,
+            "01101": 29,
+            "00001": 33,
+            "00011": 23,
+            "01111": 50,
+            "00100": 18,
+            "01010": 14
+          },
+          "valid_fraction": 1,
+          "expected_penalized_energy": 458.5567453823772,
+          "penalty": 602,
+          "angles": [
+            2.235855131758623,
+            0.6327137575967012,
+            1.992015416700295,
+            0.7808576537456059
+          ],
+          "optimizer_success": false,
+          "optimizer_message": "Return from COBYLA because the objective function has been evaluated MAXFUN times.",
+          "training_energy_history": [
+            522.0810132351664,
+            524.4211412125927,
+            523.2120425825091,
+            499.55363762156435,
+            458.78202964402317,
+            551.1749473318237,
+            467.5777017361122,
+            459.7251476647144,
+            477.393033675745,
+            458.8968183052736,
+            461.2218655581329,
+            459.11595457434294,
+            461.2175376432096,
+            459.22334447557336,
+            458.76812458912684,
+            458.9505864993931,
+            458.76126961348115,
+            458.763645155501,
+            458.7817197733798,
+            458.7542452134421,
+            458.74618203356033,
+            458.75141936381175,
+            458.72633641377604,
+            458.71066507330545,
+            458.7490895504923,
+            458.7091343625333,
+            458.7071113659034,
+            458.70552560455167,
+            458.71214421104906,
+            458.7051045512751,
+            458.7021421269195,
+            458.69638192232094,
+            458.6854467850913,
+            458.6646041236934,
+            458.6228798678094,
+            458.5567453823772,
+            459.1037901809655,
+            458.82352495521127,
+            458.5587471868952,
+            458.56294325658155
+          ]
+        },
+        {
+          "round": 2,
+          "products": [
+            6,
+            4,
+            5,
+            7
+          ],
+          "before": 418,
+          "after": 406,
+          "accepted": true,
+          "assignment_before": [
+            5,
+            7,
+            8,
+            4,
+            3,
+            6,
+            1,
+            0,
+            9,
+            2
+          ],
+          "assignment_after": [
+            5,
+            7,
+            8,
+            4,
+            6,
+            3,
+            1,
+            0,
+            9,
+            2
+          ],
+          "qubits": 5,
+          "candidate_count": 24,
+          "empty_slot_offered": null,
+          "counts": {
+            "10000": 85,
+            "10001": 48,
+            "10010": 66,
+            "10011": 39,
+            "10100": 34,
+            "10101": 46,
+            "10110": 50,
+            "10111": 49,
+            "11001": 3,
+            "11010": 4,
+            "11011": 4,
+            "11101": 2,
+            "11110": 2,
+            "11111": 6,
+            "01010": 57,
+            "00101": 11,
+            "00000": 26,
+            "01101": 61,
+            "01111": 60,
+            "00111": 29,
+            "01110": 74,
+            "00001": 22,
+            "01001": 37,
+            "00010": 28,
+            "01011": 61,
+            "01000": 61,
+            "01100": 34,
+            "00110": 16,
+            "00100": 8,
+            "00011": 1
+          },
+          "valid_fraction": 0.9794921875,
+          "expected_penalized_energy": 488.77138192177085,
+          "penalty": 726,
+          "angles": [
+            3.2278014460472564,
+            1.6911842342734058,
+            1.9303915759864363,
+            2.6844264223672263
+          ],
+          "optimizer_success": false,
+          "optimizer_message": "Return from COBYLA because the objective function has been evaluated MAXFUN times.",
+          "training_energy_history": [
+            630.0860540116859,
+            623.0542266040713,
+            608.9923035224738,
+            505.73862865518106,
+            593.6529807441284,
+            515.1033011328086,
+            511.9302704920466,
+            506.09070794406523,
+            500.3554024526368,
+            525.7729902986663,
+            499.65374437919684,
+            496.01954254384407,
+            496.1851261879365,
+            495.959083801216,
+            497.79833183313355,
+            495.7009258505188,
+            495.2395925924473,
+            495.0065702869446,
+            494.59977870050324,
+            493.8416657117014,
+            492.7294112549448,
+            492.95876363299783,
+            492.5571491074686,
+            493.69206249833854,
+            492.50618459093585,
+            491.798685452997,
+            491.45436384769727,
+            491.0650207969947,
+            490.78875784955426,
+            490.5602072550594,
+            490.24416060693903,
+            490.0191923694071,
+            489.76030787223726,
+            489.53898595314627,
+            489.30856471192806,
+            489.7606316345744,
+            489.27676116870344,
+            489.10741547287694,
+            488.8910427568427,
+            488.77138192177085
+          ]
+        },
+        {
+          "round": 2,
+          "products": [
+            7,
+            9,
+            2,
+            3
+          ],
+          "before": 406,
+          "after": 406,
+          "accepted": false,
+          "assignment_before": [
+            5,
+            7,
+            8,
+            4,
+            6,
+            3,
+            1,
+            0,
+            9,
+            2
+          ],
+          "assignment_after": [
+            5,
+            7,
+            8,
+            4,
+            6,
+            3,
+            1,
+            0,
+            9,
+            2
+          ],
+          "qubits": 5,
+          "candidate_count": 24,
+          "empty_slot_offered": null,
+          "counts": {
+            "10000": 9,
+            "10001": 11,
+            "10010": 17,
+            "10011": 26,
+            "10100": 56,
+            "10101": 75,
+            "10110": 8,
+            "10111": 13,
+            "11000": 1,
+            "11001": 1,
+            "11010": 1,
+            "11011": 2,
+            "11100": 2,
+            "11101": 4,
+            "11110": 1,
+            "00100": 50,
+            "01110": 49,
+            "01011": 32,
+            "00110": 46,
+            "01111": 66,
+            "00101": 96,
+            "00111": 28,
+            "00000": 118,
+            "00010": 51,
+            "00011": 92,
+            "01100": 21,
+            "00001": 108,
+            "01101": 10,
+            "01010": 14,
+            "01001": 13,
+            "01000": 3
+          },
+          "valid_fraction": 0.98828125,
+          "expected_penalized_energy": 471.6348652475858,
+          "penalty": 706,
+          "angles": [
+            1.555344994374489,
+            2.746068588836244,
+            2.6364675513000684,
+            2.9168602748377364
+          ],
+          "optimizer_success": false,
+          "optimizer_message": "Return from COBYLA because the objective function has been evaluated MAXFUN times.",
+          "training_energy_history": [
+            544.0171861107984,
+            551.526238360693,
+            554.2610683700295,
+            543.6384254372502,
+            489.7057056835381,
+            626.4509524259684,
+            520.1905412016689,
+            491.9511296742086,
+            520.8104427685466,
+            488.19407120322444,
+            479.5243727246138,
+            474.46890374482274,
+            472.73032367507926,
+            475.8811956750179,
+            472.7946487837408,
+            472.2663793680302,
+            473.41790489404366,
+            473.0612031780551,
+            472.2568803244796,
+            472.4029328091814,
+            472.2202849400196,
+            472.16829107763056,
+            472.1049042843505,
+            472.08497658156534,
+            472.06551142927736,
+            472.1238043443245,
+            472.08763385929853,
+            471.994335595355,
+            471.9561307117334,
+            471.9530902432417,
+            471.96039581251034,
+            471.92021922353297,
+            471.89015380383603,
+            471.85426463433976,
+            471.86125321888255,
+            471.8337380211377,
+            471.78125274992135,
+            471.739709301639,
+            471.69509565142164,
+            471.6348652475858
+          ]
+        }
+      ],
+      "circuit": "        ┌───┐»\n   q_0: ┤ H ├»\n        ├───┤»\n   q_1: ┤ H ├»\n        ├───┤»\n   q_2: ┤ H ├»\n        ├───┤»\n   q_3: ┤ H ├»\n        ├───┤»\n   q_4: ┤ H ├»\n        └───┘»\nmeas: 5/═════»\n             »\n«        ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐»\n«   q_0: ┤0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ├»\n«        │                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             │»\n«   q_1: ┤1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ├»\n«        │                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             │»\n«   q_2: ┤2 Diagonal(1,0.98627-0.16514j,0.87868-0.47741j,0.9385-0.34529j,0.8634-0.50451j,0.97639-0.21603j,0.8473-0.53112j,0.74795-0.66375j,0.76155-0.6481j,0.8361-0.54858j,0.74103-0.67147j,0.90224-0.43124j,0.80037-0.5995j,0.80037-0.5995j,0.95815-0.28627j,0.95201-0.30608j,0.72694-0.6867j,0.71255-0.70162j,0.85276-0.52231j,0.9273-0.37431j,0.98066-0.19574j,0.99866-0.051822j,0.80655-0.59117j,0.79412-0.60777j,0.015451-0.99988j,0.015451-0.99988j,0.015451-0.99988j,0.015451-0.99988j,0.015451-0.99988j,0.015451-0.99988j,0.015451-0.99988j,0.015451-0.99988j) ├»\n«        │                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             │»\n«   q_3: ┤3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ├»\n«        │                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             │»\n«   q_4: ┤4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ├»\n«        └─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘»\n«meas: 5/═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════»\n«                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       »\n«        ┌────────────┐»\n«   q_0: ┤ Rx(5.2729) ├»\n«        ├────────────┤»\n«   q_1: ┤ Rx(5.2729) ├»\n«        ├────────────┤»\n«   q_2: ┤ Rx(5.2729) ├»\n«        ├────────────┤»\n«   q_3: ┤ Rx(5.2729) ├»\n«        ├────────────┤»\n«   q_4: ┤ Rx(5.2729) ├»\n«        └────────────┘»\n«meas: 5/══════════════»\n«                      »\n«        ┌───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐»\n«   q_0: ┤0                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ├»\n«        │                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   │»\n«   q_1: ┤1                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ├»\n«        │                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   │»\n«   q_2: ┤2 Diagonal(1,0.95741-0.28874j,0.63812-0.76994j,0.81246-0.58302j,0.59489-0.8038j,0.927-0.37505j,0.54987-0.83525j,0.28528-0.95844j,0.32017-0.94736j,0.51893-0.85482j,0.26769-0.96351j,0.70583-0.70838j,0.42209-0.90655j,0.42209-0.90655j,0.87147-0.49044j,0.85294-0.52202j,0.23224-0.97266j,0.19648-0.98051j,0.56507-0.82504j,0.77923-0.62674j,0.94011-0.34086j,0.99581-0.091408j,0.43862-0.89867j,0.40543-0.91413j,-0.92279-0.38529j,-0.92279-0.38529j,-0.92279-0.38529j,-0.92279-0.38529j,-0.92279-0.38529j,-0.92279-0.38529j,-0.92279-0.38529j,-0.92279-0.38529j) ├»\n«        │                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   │»\n«   q_3: ┤3                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ├»\n«        │                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   │»\n«   q_4: ┤4                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  ├»\n«        └───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────┘»\n«meas: 5/═════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════════»\n«                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             »\n«        ┌────────────┐ ░ ┌─┐            \n«   q_0: ┤ Rx(5.8337) ├─░─┤M├────────────\n«        ├────────────┤ ░ └╥┘┌─┐         \n«   q_1: ┤ Rx(5.8337) ├─░──╫─┤M├─────────\n«        ├────────────┤ ░  ║ └╥┘┌─┐      \n«   q_2: ┤ Rx(5.8337) ├─░──╫──╫─┤M├──────\n«        ├────────────┤ ░  ║  ║ └╥┘┌─┐   \n«   q_3: ┤ Rx(5.8337) ├─░──╫──╫──╫─┤M├───\n«        ├────────────┤ ░  ║  ║  ║ └╥┘┌─┐\n«   q_4: ┤ Rx(5.8337) ├─░──╫──╫──╫──╫─┤M├\n«        └────────────┘ ░  ║  ║  ║  ║ └╥┘\n«meas: 5/══════════════════╩══╩══╩══╩══╩═\n«                          0  1  2  3  4 ",
+      "options": {
+        "seed": 7,
+        "layers": 2,
+        "shots_per_block": 1024,
+        "maxiter": 40,
+        "rounds": 2
+      },
+      "feasible": true,
+      "improvement_percent": 24.253731343283583,
+      "gap_percent": 19.41176470588235,
+      "pairs": [
+        {
+          "i": 6,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 60,
+          "after_cost": 20,
+          "saving": 40
+        },
+        {
+          "i": 4,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 10,
+          "saving": 30
+        },
+        {
+          "i": 3,
+          "k": 7,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 40,
+          "after_cost": 20,
+          "saving": 20
+        },
+        {
+          "i": 0,
+          "k": 3,
+          "weight": 8,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 24,
+          "after_cost": 8,
+          "saving": 16
+        },
+        {
+          "i": 1,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 30,
+          "after_cost": 20,
+          "saving": 10
+        },
+        {
+          "i": 2,
+          "k": 7,
+          "weight": 10,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 30,
+          "after_cost": 20,
+          "saving": 10
+        },
+        {
+          "i": 2,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 20,
+          "after_cost": 10,
+          "saving": 10
+        },
+        {
+          "i": 5,
+          "k": 9,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 20,
+          "after_cost": 10,
+          "saving": 10
+        },
+        {
+          "i": 0,
+          "k": 2,
+          "weight": 4,
+          "before_distance": 4,
+          "after_distance": 2,
+          "before_cost": 16,
+          "after_cost": 8,
+          "saving": 8
+        },
+        {
+          "i": 0,
+          "k": 4,
+          "weight": 2,
+          "before_distance": 5,
+          "after_distance": 1,
+          "before_cost": 10,
+          "after_cost": 2,
+          "saving": 8
+        },
+        {
+          "i": 1,
+          "k": 4,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 4,
+          "saving": 8
+        },
+        {
+          "i": 1,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 4,
+          "saving": 8
+        },
+        {
+          "i": 6,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 12,
+          "after_cost": 4,
+          "saving": 8
+        },
+        {
+          "i": 0,
+          "k": 8,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 1,
+          "before_cost": 8,
+          "after_cost": 4,
+          "saving": 4
+        },
+        {
+          "i": 0,
+          "k": 1,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 1,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 2,
+          "weight": 6,
+          "before_distance": 4,
+          "after_distance": 4,
+          "before_cost": 24,
+          "after_cost": 24,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 1,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 3,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 1,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 4,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 5,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 5,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 2,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 4,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 3,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 5,
+          "weight": 20,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 40,
+          "after_cost": 40,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 6,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 7,
+          "weight": 0,
+          "before_distance": 4,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 4,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 3,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 6,
+          "k": 8,
+          "weight": 10,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 20,
+          "after_cost": 20,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 8,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 7,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 2,
+          "after_distance": 2,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 8,
+          "k": 9,
+          "weight": 0,
+          "before_distance": 1,
+          "after_distance": 3,
+          "before_cost": 0,
+          "after_cost": 0,
+          "saving": 0
+        },
+        {
+          "i": 0,
+          "k": 9,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 2,
+          "after_cost": 4,
+          "saving": -2
+        },
+        {
+          "i": 5,
+          "k": 7,
+          "weight": 2,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 4,
+          "after_cost": 6,
+          "saving": -2
+        },
+        {
+          "i": 1,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 8,
+          "after_cost": 12,
+          "saving": -4
+        },
+        {
+          "i": 2,
+          "k": 9,
+          "weight": 4,
+          "before_distance": 3,
+          "after_distance": 4,
+          "before_cost": 12,
+          "after_cost": 16,
+          "saving": -4
+        },
+        {
+          "i": 3,
+          "k": 6,
+          "weight": 4,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 4,
+          "after_cost": 8,
+          "saving": -4
+        },
+        {
+          "i": 5,
+          "k": 8,
+          "weight": 2,
+          "before_distance": 1,
+          "after_distance": 4,
+          "before_cost": 2,
+          "after_cost": 8,
+          "saving": -6
+        },
+        {
+          "i": 1,
+          "k": 8,
+          "weight": 8,
+          "before_distance": 2,
+          "after_distance": 3,
+          "before_cost": 16,
+          "after_cost": 24,
+          "saving": -8
+        },
+        {
+          "i": 3,
+          "k": 5,
+          "weight": 4,
+          "before_distance": 2,
+          "after_distance": 4,
+          "before_cost": 8,
+          "after_cost": 16,
+          "saving": -8
+        },
+        {
+          "i": 5,
+          "k": 6,
+          "weight": 10,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 10,
+          "after_cost": 20,
+          "saving": -10
+        },
+        {
+          "i": 0,
+          "k": 7,
+          "weight": 12,
+          "before_distance": 1,
+          "after_distance": 2,
+          "before_cost": 12,
+          "after_cost": 24,
+          "saving": -12
+        }
+      ]
+    }
+  ],
+  "config": {
+    "scenario": "qap10",
+    "seed": 7,
+    "profile": 1,
+    "density": 1,
+    "layers": 2,
+    "shots": 1024,
+    "maxiter": 40,
+    "rounds": 2,
+    "sa_iterations": 50000,
+    "restarts": 8,
+    "initial": [
+      8,
+      0,
+      7,
+      1,
+      3,
+      6,
+      2,
+      4,
+      5,
+      9
+    ]
+  },
+  "total_seconds": 1.1931488120026188,
+  "classical_bridge_seconds": 0.03554457599966554,
+  "node_version": "v26.7.0",
+  "versions": {
+    "qiskit": "2.6.1",
+    "numpy": "2.5.4",
+    "scipy": "1.18.1",
+    "fastapi": "0.162.0",
+    "uvicorn": "0.54.0"
+  },
+  "cost_convention": "sum i<k; un par una vez; motor original recibe W/2 para compensar su factor 2",
+  "comparison_note": "Métodos y presupuestos distintos; tiempos locales por método, no prueba de ventaja. Greedy es constructivo; los demás reciben el mismo inicio."
+}

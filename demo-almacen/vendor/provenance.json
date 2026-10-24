@@ -1,0 +1,7 @@
+{
+  "repository": "https://github.com/kbit-ibm/demo",
+  "commit": "1d3418fa139ece281e319bf4b2451cfdfe468ec7",
+  "file": "engine.js",
+  "sha256": "f06734dc3ce7e76750efeebb1caa95a962dc80ac3fa721ee164e3e35e60df5b2",
+  "note": "Engine copied without edits. Cost normalization and hybrid start correction live in classical_bridge.js."
+}
