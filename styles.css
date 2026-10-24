@@ -75,6 +75,7 @@ h1 { font-size: 19px; margin: 0; letter-spacing: -.01em; font-weight: 700; }
   grid-template-areas:
     "controls plan metrics"
     "controls compare compare"
+    "controls pairs pairs"
     "controls howto howto";
   gap: 16px; padding: 16px 24px 32px; max-width: 1640px; margin: 0 auto;
   align-items: start;
@@ -83,6 +84,7 @@ h1 { font-size: 19px; margin: 0; letter-spacing: -.01em; font-weight: 700; }
 .plan { grid-area: plan; }
 .metrics { grid-area: metrics; }
 .compare { grid-area: compare; }
+.pairs { grid-area: pairs; }
 .howto { grid-area: howto; }
 
 .panel {
@@ -312,6 +314,7 @@ input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 
       "controls plan"
       "controls metrics"
       "compare compare"
+      "pairs pairs"
       "howto howto";
   }
   .metrics { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); gap: 0 16px; }
@@ -320,7 +323,7 @@ input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 
   .controls { position: static; }
 }
 @media (max-width: 900px) {
-  .layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "plan" "controls" "metrics" "compare" "howto"; padding: 12px; }
+  .layout { grid-template-columns: minmax(0, 1fr); grid-template-areas: "plan" "controls" "metrics" "compare" "pairs" "howto"; padding: 12px; }
   .metrics { display: block; }
   .header-stats { display: none; }
   .app-header { padding: 14px 16px; }
@@ -330,3 +333,21 @@ input[type=range]::-moz-range-thumb { width: 14px; height: 14px; border-radius: 
 @media (prefers-reduced-motion: reduce) {
   .sku, .progress-bar, .switch-track::after { transition: none !important; }
 }
+
+/* ---------- Relaciones del mes ---------- */
+.pairs-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.pairs-tools select, .pairs-tools input {
+  background: var(--panel-2); color: var(--text); border: 1px solid var(--border-2);
+  border-radius: 8px; padding: 7px 10px; font: inherit; font-size: 13px;
+}
+.pairs-tools input { width: 150px; }
+.pairs-wrap { max-height: 420px; overflow-y: auto; margin-bottom: 10px; }
+.pairs-table thead th { position: sticky; top: 0; background: var(--panel); z-index: 1; }
+.sku-chip { white-space: nowrap; display: inline-flex; align-items: center; gap: 8px; }
+.sku-dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.cnt-cell { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+.cnt-bar { width: 90px; height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
+.cnt-bar > i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent-2), #6366f1); }
+.cnt-val { min-width: 2.5ch; font-weight: 700; }
+.dist-near { color: var(--good); }
+.dist-far { color: var(--bad); }

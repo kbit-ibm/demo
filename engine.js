@@ -204,6 +204,62 @@
     };
   }
 
+
+  // ---------- Canastas de un mes ----------
+  // Simula las canastas (pedidos) de un mes: el SKU ancla se elige según su volumen
+  // y los demás según su afinidad (W) con el ancla. Devuelve cuántas veces cada
+  // par de productos aparece junto en una misma canasta.
+  function simulateMonth(inst, opts) {
+    opts = opts || {};
+    const rng = mulberry32((opts.seed || 1) * 104729 + 17);
+    const { W, skus, numSkus } = inst;
+    const monthlyLines = skus.reduce((a, s) => a + s.picks, 0) / 12;
+    const numBaskets = opts.baskets || Math.round(monthlyLines / 3);
+    const totalPicks = skus.reduce((a, s) => a + s.picks, 0);
+    const counts = [];
+    for (let i = 0; i < numSkus; i++) counts.push(new Int32Array(numSkus));
+    const single = new Int32Array(numSkus);
+    function draw(weights, exclude) {
+      let tot = 0;
+      for (let k = 0; k < numSkus; k++) if (!exclude.has(k)) tot += weights[k];
+      if (tot <= 0) return -1;
+      let r = rng() * tot;
+      for (let k = 0; k < numSkus; k++) {
+        if (exclude.has(k)) continue;
+        r -= weights[k];
+        if (r <= 0) return k;
+      }
+      return -1;
+    }
+    const pickW = skus.map((s) => s.picks / totalPicks);
+    for (let b = 0; b < numBaskets; b++) {
+      const u = rng();
+      const size = u < 0.5 ? 2 : u < 0.8 ? 3 : 4;
+      const chosen = new Set();
+      const anchor = draw(pickW, chosen);
+      chosen.add(anchor);
+      while (chosen.size < size) {
+        // el siguiente producto se elige por afinidad con alguno de los ya elegidos
+        const aff = new Float64Array(numSkus);
+        chosen.forEach((c) => { for (let k = 0; k < numSkus; k++) aff[k] += W[c][k]; });
+        const nxt = draw(aff, chosen);
+        if (nxt < 0) break;
+        chosen.add(nxt);
+      }
+      const items = Array.from(chosen);
+      items.forEach((i) => { single[i]++; });
+      for (let x = 0; x < items.length; x++) for (let y = x + 1; y < items.length; y++) {
+        counts[items[x]][items[y]]++; counts[items[y]][items[x]]++;
+      }
+    }
+    const pairs = [];
+    for (let i = 0; i < numSkus; i++) for (let j = i + 1; j < numSkus; j++) {
+      if (counts[i][j] > 0) pairs.push({ i, j, count: counts[i][j], share: counts[i][j] / numBaskets });
+    }
+    pairs.sort((a, b) => b.count - a.count || a.i - b.i || a.j - b.j);
+    return { numBaskets, counts, single, pairs };
+  }
+
   // ---------- Solvers ----------
 
   // Heurística constructiva: SKUs más "conectados" primero, cada uno en el mejor slot libre.
@@ -356,7 +412,7 @@
   }
 
   const api = {
-    FAMILIES, PROFILES, SOLVERS, buildInstance, cost, randomAssignment, createSolver,
+    FAMILIES, PROFILES, SOLVERS, buildInstance, simulateMonth, cost, randomAssignment, createSolver,
     deltaSwap, deltaMove, occupancy,
   };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;

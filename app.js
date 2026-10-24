@@ -236,6 +236,7 @@
     }
     renderLinks();
     if (S.focusSku >= 0) renderFocus();
+    updatePairDistances();
   }
 
   function curvePath(x1, y1, x2, y2, bend) {
@@ -829,6 +830,76 @@
     el.svg.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
 
+
+  // ---------- Relaciones del mes ----------
+  const P = { month: null, seed: 1, shown: 15, rows: [] };
+
+  function skuChip(i) {
+    const s = S.inst.skus[i];
+    const fam = E.FAMILIES[s.family].name;
+    return `<span class="sku-chip"><span class="sku-dot" style="background:${s.color}"></span>SKU ${s.id} <span class="muted">· ${fam}</span></span>`;
+  }
+
+  function pairDistance(i, j) {
+    return S.inst.D[S.assign[i]][S.assign[j]];
+  }
+
+  function filteredPairs() {
+    const fam = $('pairs-family').value;
+    const q = $('pairs-search').value.trim();
+    return P.month.pairs.filter((p) => {
+      const a = S.inst.skus[p.i], b = S.inst.skus[p.j];
+      if (fam && a.family !== fam && b.family !== fam) return false;
+      if (q && String(a.id) !== q && String(b.id) !== q) return false;
+      return true;
+    });
+  }
+
+  function renderPairs() {
+    if (!P.month) return;
+    const list = filteredPairs();
+    const max = P.month.pairs.length ? P.month.pairs[0].count : 1;
+    P.rows = list.slice(0, P.shown);
+    $('pairs-body').innerHTML = P.rows.map((p, r) => `<tr>
+      <td class="num">${r + 1}</td><td>${skuChip(p.i)}</td><td>${skuChip(p.j)}</td>
+      <td class="num"><div class="cnt-cell"><span class="cnt-bar"><i style="width:${(p.count / max * 100).toFixed(1)}%"></i></span><span class="cnt-val">${p.count}</span></div></td>
+      <td class="num">${fmtPct(p.share)}</td><td class="num" data-dist="${r}"></td></tr>`).join('')
+      || '<tr class="empty-row"><td colspan="6">Ningún par coincide con el filtro.</td></tr>';
+    $('btn-pairs-more').hidden = list.length <= P.shown;
+    $('btn-pairs-more').textContent = `Ver más pares (${list.length - P.shown} restantes)`;
+    $('pairs-summary').textContent = `Mes simulado: ${fmt(P.month.numBaskets)} canastas · ${fmt(P.month.pairs.length)} pares distintos con al menos una coincidencia · mostrando ${P.rows.length} de ${list.length}.`;
+    updatePairDistances();
+  }
+
+  function updatePairDistances() {
+    if (!P.month) return;
+    document.querySelectorAll('#pairs-body [data-dist]').forEach((td) => {
+      const p = P.rows[+td.dataset.dist];
+      const d = pairDistance(p.i, p.j);
+      td.textContent = d;
+      td.className = 'num ' + (d <= 2 ? 'dist-near' : d >= 10 ? 'dist-far' : '');
+    });
+  }
+
+  function rebuildMonth() {
+    P.month = E.simulateMonth(S.inst, { seed: P.seed });
+    P.shown = 15;
+    renderPairs();
+  }
+
+  function initPairs() {
+    const sel = $('pairs-family');
+    Object.keys(E.FAMILIES).forEach((f) => {
+      const o = document.createElement('option');
+      o.value = f; o.textContent = `${f} · ${E.FAMILIES[f].name}`;
+      sel.appendChild(o);
+    });
+    sel.addEventListener('change', () => { P.shown = 15; renderPairs(); });
+    $('pairs-search').addEventListener('input', () => { P.shown = 15; renderPairs(); });
+    $('btn-month').addEventListener('click', () => { P.seed++; rebuildMonth(); });
+    $('btn-pairs-more').addEventListener('click', () => { P.shown += 25; renderPairs(); });
+  }
+
   // ---------- Instancia ----------
   function rebuildInstance() {
     discardRun();
@@ -847,6 +918,7 @@
     S.compare = null;
     if (firstBuild) buildStatic(); else refreshSkuLabels();
     resetMoves();
+    rebuildMonth();
     renderCompare();
     resetProgress();
     renderAssignment();
@@ -861,6 +933,7 @@
 
   // ---------- Inicialización ----------
   function init() {
+    initPairs();
     // Selectores
     el.profile.innerHTML = E.PROFILES.map((p) => `<option value="${p.id}">${p.name}</option>`).join('');
     el.solver.innerHTML = E.SOLVERS.map((s) => `<option value="${s.id}">${s.name}</option>`).join('');

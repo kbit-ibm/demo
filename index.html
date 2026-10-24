@@ -178,6 +178,32 @@
       </div>
     </section>
 
+    <!-- ===== Relaciones del mes ===== -->
+    <section class="panel pairs" aria-labelledby="pairs-title">
+      <div class="panel-head">
+        <h2 id="pairs-title" class="panel-title">Relaciones de productos en un mes</h2>
+        <div class="pairs-tools">
+          <label class="sr-only" for="pairs-family">Filtrar por familia</label>
+          <select id="pairs-family"><option value="">Todas las familias</option></select>
+          <label class="sr-only" for="pairs-search">Buscar producto</label>
+          <input type="search" id="pairs-search" placeholder="Buscar SKU (ej. 12)" inputmode="numeric">
+          <button type="button" class="btn" id="btn-month" aria-label="Simular otro mes de canastas">Simular otro mes</button>
+        </div>
+      </div>
+      <p class="help" id="pairs-summary"></p>
+      <p class="help">Relación = número de canastas del mes en las que dos productos fueron elegidos juntos.</p>
+      <div class="table-wrap pairs-wrap">
+        <table class="cmp-table pairs-table">
+          <caption class="sr-only">Pares de productos y número de canastas en las que aparecen juntos durante un mes</caption>
+          <thead>
+            <tr><th scope="col" class="num">#</th><th scope="col">Producto A</th><th scope="col">Producto B</th><th scope="col" class="num">Canastas juntos</th><th scope="col" class="num">% de canastas</th><th scope="col" class="num">Distancia en el plano</th></tr>
+          </thead>
+          <tbody id="pairs-body"></tbody>
+        </table>
+      </div>
+      <button type="button" class="btn" id="btn-pairs-more">Ver más pares</button>
+    </section>
+
     <!-- ===== Cómo funciona ===== -->
     <section class="panel howto">
       <details>
