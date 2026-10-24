@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Optimización de Layout de Almacén — Solución Clásica</title>
+  <meta name="description" content="Demo interactivo: asignación de SKUs a ubicaciones de almacén minimizando la distancia ponderada por co-picking, resuelto con heurísticas clásicas.">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#plano">Saltar al plano del almacén</a>
+
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M3 10 12 4l9 6v10H3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M7 20v-6h4v6M13 14h4v3h-4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <div>
+        <h1>Optimización de Layout de Almacén — Solución Clásica</h1>
+        <p class="subtitle">30 SKUs · 32 ubicaciones · 4 pasillos × 8 posiciones · heurísticas clásicas</p>
+      </div>
+    </div>
+    <div class="header-stats" aria-label="Datos de la instancia">
+      <div><span class="hs-label">Pares con co-picking</span><span class="hs-value" id="hs-pairs">—</span></div>
+      <div><span class="hs-label">Perfil</span><span class="hs-value" id="hs-profile">—</span></div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <!-- ===== Panel de parámetros ===== -->
+    <aside class="panel controls" aria-labelledby="ctrl-title">
+      <h2 id="ctrl-title" class="panel-title">Parámetros</h2>
+
+      <div class="field">
+        <label for="density">Densidad de co-picking <output id="density-out" for="density">100 %</output></label>
+        <input type="range" id="density" min="50" max="100" step="5" value="100" aria-describedby="density-help">
+        <p class="help" id="density-help">Porcentaje de pares de SKUs que se piden juntos (se conservan los más fuertes).</p>
+      </div>
+
+      <div class="field">
+        <label for="profile">Perfil de demanda</label>
+        <select id="profile" aria-describedby="profile-help"></select>
+        <p class="help" id="profile-help"></p>
+      </div>
+
+      <div class="field">
+        <label for="solver">Algoritmo (solver)</label>
+        <select id="solver" aria-describedby="solver-help"></select>
+        <p class="help" id="solver-help"></p>
+      </div>
+
+      <div class="field">
+        <label for="speed">Velocidad de animación <output id="speed-out" for="speed">Media</output></label>
+        <input type="range" id="speed" min="1" max="10" step="1" value="4">
+      </div>
+
+      <div class="btn-row">
+        <button type="button" class="btn btn-primary" id="btn-run" aria-label="Resolver con el algoritmo seleccionado">
+          <span class="btn-icon" aria-hidden="true">▶</span><span class="btn-text">Resolver</span>
+        </button>
+        <button type="button" class="btn" id="btn-reset" aria-label="Reiniciar a la asignación de partida">
+          <span class="btn-icon" aria-hidden="true">↺</span>Reiniciar
+        </button>
+      </div>
+
+      <hr class="sep">
+
+      <h3 class="panel-subtitle">Modo manual</h3>
+      <p class="help">Haz clic en dos ubicaciones para intercambiar sus SKUs (o mover un SKU a una ubicación vacía). También con teclado: Tab + Enter.</p>
+      <div class="btn-col">
+        <button type="button" class="btn" id="btn-random" aria-label="Generar una asignación aleatoria nueva">Asignación aleatoria</button>
+        <button type="button" class="btn" id="btn-best" aria-label="Aplicar la mejor solución encontrada por los solvers" disabled>Aplicar mejor solución</button>
+      </div>
+
+      <div class="move-log" aria-live="polite">
+        <div class="move-last" id="move-last">Aún no hay movimientos manuales.</div>
+        <ol class="move-history" id="move-history" aria-label="Historial de movimientos"></ol>
+      </div>
+
+      <hr class="sep">
+      <h3 class="panel-subtitle">Familias</h3>
+      <ul class="legend" id="legend"></ul>
+    </aside>
+
+    <!-- ===== Plano ===== -->
+    <section class="panel plan" aria-labelledby="plan-title">
+      <div class="panel-head">
+        <h2 id="plan-title" class="panel-title">Plano del almacén</h2>
+        <div class="plan-toggles">
+          <label class="switch">
+            <input type="checkbox" id="show-links" checked>
+            <span class="switch-track" aria-hidden="true"></span>
+            <span>Líneas de co-picking</span>
+          </label>
+          <label class="sr-only" for="link-mode">Qué representan las líneas</label>
+          <select id="link-mode" class="select-sm" aria-label="Qué representan las líneas">
+            <option value="cost">Grosor ∝ co-picking × distancia</option>
+            <option value="w">Grosor ∝ co-picking</option>
+          </select>
+        </div>
+      </div>
+      <div class="plan-wrap" id="plan-wrap">
+        <svg id="plano" class="plano" viewBox="0 0 760 560" role="group" aria-label="Plano del almacén: 4 pasillos con 8 ubicaciones cada uno" tabindex="-1"></svg>
+        <div class="tooltip" id="tooltip" role="tooltip" hidden></div>
+        <div class="plan-status" id="plan-status" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <!-- ===== Métricas ===== -->
+    <section class="panel metrics" aria-labelledby="met-title">
+      <h2 id="met-title" class="panel-title">Métricas en vivo</h2>
+      <div class="kpis">
+        <div class="kpi">
+          <span class="kpi-label">Costo actual</span>
+          <span class="kpi-value" id="m-cost">—</span>
+          <span class="kpi-sub" id="m-cost-sub">distancia ponderada</span>
+        </div>
+        <div class="kpi kpi-accent">
+          <span class="kpi-label">Mejor costo</span>
+          <span class="kpi-value" id="m-best">—</span>
+          <span class="kpi-sub" id="m-best-by"></span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-label">Costo de partida <small>(aleatoria)</small></span>
+          <span class="kpi-value" id="m-start">—</span>
+          <span class="kpi-sub">referencia fija</span>
+        </div>
+        <div class="kpi">
+          <span class="kpi-label">Mejora vs. aleatoria</span>
+          <span class="kpi-value good" id="m-impr">—</span>
+          <span class="kpi-sub" id="m-impr-cur"></span>
+        </div>
+      </div>
+
+      <div class="progress-block">
+        <div class="progress-row stage-row">
+          <span id="m-stage">En espera</span>
+          <span id="m-iter">—</span>
+        </div>
+        <div class="progress" role="progressbar" aria-label="Progreso del solver" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="m-progress">
+          <div class="progress-bar" id="m-progress-bar"></div>
+        </div>
+        <div class="progress-row muted">
+          <span>Temperatura: <strong id="m-temp">—</strong></span>
+          <span>Brecha vs. mejor: <strong id="m-gap">—</strong></span>
+        </div>
+      </div>
+
+      <div class="chart-block">
+        <div class="chart-head">
+          <h3 class="panel-subtitle">Convergencia</h3>
+          <div class="chart-legend" aria-hidden="true">
+            <span><i class="lg lg-cur"></i>Actual</span>
+            <span><i class="lg lg-best"></i>Mejor</span>
+            <span><i class="lg lg-base"></i>Partida</span>
+          </div>
+        </div>
+        <svg id="chart" class="chart" viewBox="0 0 360 200" role="img" aria-label="Gráfico de convergencia: costo actual y mejor costo por paso"></svg>
+      </div>
+    </section>
+
+    <!-- ===== Comparativa ===== -->
+    <section class="panel compare" aria-labelledby="cmp-title">
+      <div class="panel-head">
+        <h2 id="cmp-title" class="panel-title">Comparativa de solvers</h2>
+        <button type="button" class="btn btn-primary" id="btn-compare" aria-label="Ejecutar los cuatro solvers sobre la instancia actual y comparar">Comparar todos los solvers</button>
+      </div>
+      <div class="table-wrap">
+        <table class="cmp-table">
+          <caption class="sr-only">Resultados de cada solver sobre la instancia actual</caption>
+          <thead>
+            <tr><th scope="col">Solver</th><th scope="col" class="num">Costo final</th><th scope="col" class="num">Mejora vs. aleatoria</th><th scope="col" class="num">Tiempo (ms)</th><th scope="col"><span class="sr-only">Acción</span></th></tr>
+          </thead>
+          <tbody id="cmp-body">
+            <tr class="empty-row"><td colspan="5">Pulsa «Comparar todos los solvers» para ejecutar las cuatro heurísticas sobre la instancia actual.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ===== Cómo funciona ===== -->
+    <section class="panel howto">
+      <details>
+        <summary><span>¿Cómo funciona?</span></summary>
+        <div class="howto-body">
+          <p><strong>El problema.</strong> Tenemos 30 productos (SKUs) y 32 ubicaciones en 4 pasillos. Hay que decidir dónde va cada producto. Dos ubicaciones quedan vacías.</p>
+          <p><strong>Qué se minimiza.</strong> Muchos pedidos incluyen varios productos a la vez (<em>co-picking</em>). Si dos productos que se piden juntos están lejos, el operario camina más. Para cada par de productos multiplicamos:</p>
+          <p class="formula">costo = Σ <span class="f-w">frecuencia con que se piden juntos</span> × <span class="f-d">distancia entre sus ubicaciones</span></p>
+          <p>La distancia es «en cuadrícula» (Manhattan): cambiar de pasillo cuesta 4 unidades y cada posición dentro del pasillo, 1. Cuanto menor el costo, menos recorrido total.</p>
+          <p><strong>Por qué es difícil.</strong> Hay unas 10<sup>35</sup> formas de ubicar 30 productos en 32 lugares (muchas más que estrellas en el universo observable), así que no se pueden probar todas. Las heurísticas encuentran muy buenas soluciones en milisegundos:</p>
+          <ul>
+            <li><strong>Constructivo:</strong> ubica primero los productos más conectados.</li>
+            <li><strong>Búsqueda local:</strong> prueba intercambios y aplica el mejor hasta que ninguno mejora.</li>
+            <li><strong>Recocido simulado:</strong> acepta a veces empeorar para no quedarse atascado, cada vez con menos tolerancia («temperatura»).</li>
+            <li><strong>Recocido + pulido:</strong> combina ambos.</li>
+          </ul>
+          <p><strong>Pruébalo tú:</strong> intercambia productos a mano y mira cómo cambia el costo frente a la mejor solución encontrada.</p>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <div class="sr-only" id="announcer" aria-live="polite"></div>
+
+  <script src="engine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
