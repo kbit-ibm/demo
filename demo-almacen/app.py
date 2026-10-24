@@ -23,10 +23,18 @@ class Settings(BaseModel):
     rounds:int=Field(default=2,ge=1,le=5)
     sa_iterations:int=Field(default=50000,ge=1000,le=200000)
     restarts:int=Field(default=8,ge=1,le=16)
+    strategy:Literal['baseline','improved']='improved'
+    time_budget:float=Field(default=1.,ge=.5,le=10)
     initial:list[int]|None=None
 
 app=FastAPI(title='Kbit · Laboratorio de asignación')
 executor=ThreadPoolExecutor(max_workers=1);jobs={};guard=Lock()
+
+@app.get('/api/benchmark/latest')
+def benchmark_result():
+    path=ROOT/'results'/'fair_benchmark.json'
+    if not path.exists():raise HTTPException(404,'Ejecuta benchmark.py para generar la evaluación.')
+    return json.loads(path.read_text())
 
 @app.get('/api/health')
 def health():return {'status':'ok'}

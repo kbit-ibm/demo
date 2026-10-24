@@ -8,6 +8,7 @@ import importlib.metadata
 import numpy as np
 from qap10_data import load_qap10,PRODUCTS
 from hybrid_solver import solve
+from improved_solver import improved,classical
 
 ROOT=Path(__file__).resolve().parent
 SOURCE=json.loads((ROOT/'vendor/provenance.json').read_text())
@@ -69,10 +70,16 @@ def compare(config):
     initial=config.get('initial') if config.get('initial') is not None else data['initial'];validate(instance,initial)
     data['initial']=initial;data['initial_cost']=value(instance,initial)
     t=perf_counter()
-    results=node({'action':'solve','instance':instance,'initial':initial,'seed':config['seed'],
-                  'iterations':config['sa_iterations'],'restarts':config['restarts']})
-    bridge_seconds=perf_counter()-t
-    quantum=solve(instance,initial,config['layers'],config['shots'],config['seed'],config['maxiter'],config['rounds'])
+    if config.get('strategy','baseline')=='improved':
+        budget=config.get('time_budget',1.)
+        results=[classical(instance,initial,method,config['seed'],budget) for method in ['greedy','local','sa','hybrid']]
+        bridge_seconds=perf_counter()-t
+        quantum=improved(instance,initial,config['seed'],budget,config['layers'],config['shots'],config['maxiter'])
+    else:
+        results=node({'action':'solve','instance':instance,'initial':initial,'seed':config['seed'],
+                      'iterations':config['sa_iterations'],'restarts':config['restarts']})
+        bridge_seconds=perf_counter()-t
+        quantum=solve(instance,initial,config['layers'],config['shots'],config['seed'],config['maxiter'],config['rounds'])
     results.append(quantum)
     for r in results:
         validate(instance,r['assignment']);expected=value(instance,r['assignment'])

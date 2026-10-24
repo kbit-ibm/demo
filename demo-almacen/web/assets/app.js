@@ -1,8 +1,8 @@
 'use strict';
 const $=id=>document.getElementById(id), fmt=(v,d=1)=>Number(v).toLocaleString('es-PE',{maximumFractionDigits:d}), pct=v=>`${fmt(v,2)} %`;
 const S={data:null,result:null,pair:null,allPairs:false,manual:null,loading:false,request:0};
-const fields=['scenario','seed','profile','density','layers','shots','maxiter','rounds','sa_iterations','restarts'];
-function config(){return Object.fromEntries(fields.map(k=>[k,k==='scenario'?$(k).value:Number($(k).value)]));}
+const fields=['scenario','seed','profile','density','layers','shots','maxiter','rounds','sa_iterations','restarts','strategy','time_budget'];
+function config(){return Object.fromEntries(fields.map(k=>[k,['scenario','strategy'].includes(k)?$(k).value:Number($(k).value)]));}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
 function status(s,type='ready'){$('status').textContent=s;$('status').dataset.state=type;}
 async function api(url,options){const r=await fetch(url,options);const body=await r.json();if(!r.ok)throw Error(typeof body.detail==='string'?body.detail:'Revisa los parámetros del experimento.');return body;}
@@ -76,7 +76,7 @@ function resultsRender(){const c=classic(),q=quantum();$('classical-cost').textC
  $('scores-body').innerHTML=S.result.results.map(r=>`<tr class="${r.id==='qiskit'?'quantum-row':r.id===c.id?'selected-row':''}"><td><div class="table-label">${r.id!=='qiskit'?`<button type="button" data-method="${r.id}">${escapeHtml(r.label)}</button>`:`<strong>${escapeHtml(r.label)}</strong>`}${r.start_mode==='constructive'?'<span class="tiny">constructivo</span>':''}</div></td><td><strong>${fmt(r.cost)}</strong></td><td class="${r.improvement_percent>=0?'good':'bad'}">${pct(r.improvement_percent)}</td><td>${r.gap_percent===null?'No disponible':pct(r.gap_percent)}</td><td>${r.seconds<1?`${fmt(r.seconds*1000,2)} ms`:`${fmt(r.seconds,3)} s`}</td><td>Válida</td></tr>`).join('');
  $('scores-body').querySelectorAll('[data-method]').forEach(b=>b.addEventListener('click',()=>{$('classic-method').value=b.dataset.method;resultsRender();}));
  renderPairs(false);renderMap('initial-map',S.data.initial,null,true);renderMap('classical-map',c.assignment,S.data.initial);renderMap('quantum-map',q.assignment,S.data.initial);chart('classic-chart',c);chart('quantum-chart',q);
- $('quantum-details').hidden=false;$('quantum-details').textContent=`Qiskit · ${q.blocks.length} circuitos · ${q.qubits} qubits máx. · ${fmt(q.total_shots)} shots · ${pct(q.valid_fraction*100)} muestras locales válidas · ${q.accepted_blocks} mejoras`;
+ $('quantum-details').hidden=false;$('quantum-details').textContent=`Qiskit · ${q.blocks.length} circuitos · ${q.qubits} qubits máx. · ${fmt(q.total_shots)} shots · ${q.valid_fraction===null?'sin muestras finales':pct(q.valid_fraction*100)+' muestras locales válidas'} · ${q.accepted_blocks} mejoras${q.warm_start_cost!==undefined?' · inicio clásico '+fmt(q.warm_start_cost)+' · ganancia posterior '+fmt(q.qiskit_additional_gain):''}`;
  $('circuit').textContent=q.circuit;$('download').disabled=false;
 }
 async function load(){const id=++S.request;lock(true);invalidate();S.manual=null;status('Cargando instancia…','running');try{const c=config(),params=new URLSearchParams({scenario:c.scenario,seed:c.seed,profile:c.profile,density:c.density});const data=await api(`/api/instance?${params}`);if(id!==S.request)return;S.data=data;initialRender();status('Instancia lista · inicio editable');}catch(e){S.data=null;status(e.message,'error');}finally{if(id===S.request)lock(false);}}
@@ -90,8 +90,20 @@ $('config').addEventListener('submit',async e=>{e.preventDefault();if(S.loading|
 $('classic-method').addEventListener('change',()=>{if(S.result)resultsRender();});
 $('pair-select').addEventListener('change',()=>{S.pair=$('pair-select').value.split(',').map(Number);renderPairs();renderMap('initial-map',S.data.initial,null,true);if(S.result){renderMap('classical-map',classic().assignment,S.data.initial);renderMap('quantum-map',quantum().assignment,S.data.initial);}});
 $('all-pairs').addEventListener('click',()=>{S.allPairs=!S.allPairs;renderPairs();});
-for(const key of fields)$(key).addEventListener('change',()=>{if(['scenario','seed','profile','density'].includes(key)){S.allPairs=false;load();}else{invalidate();renderPairs(true);renderMap('initial-map',S.data.initial,null,true);status('Parámetros modificados. Ejecuta de nuevo para medir.');}$('budget').textContent=`${$('rounds').value} rondas QAOA · ${fmt($('sa_iterations').value,0)} pasos de recocido`;});
+for(const key of fields)$(key).addEventListener('change',()=>{if(['scenario','seed','profile','density'].includes(key)){S.allPairs=false;load();}else{invalidate();renderPairs(true);renderMap('initial-map',S.data.initial,null,true);status('Parámetros modificados. Ejecuta de nuevo para medir.');}document.querySelectorAll('[data-baseline]').forEach(el=>el.hidden=$('strategy').value!=='baseline');$('budget').textContent=`${$('strategy').value==='improved'?$('time_budget').value+' s por método · inicio clásico + QAOA':$('rounds').value+' rondas QAOA · '+fmt($('sa_iterations').value,0)+' pasos de recocido'}`;});
 $('download').addEventListener('click',()=>{if(!S.result)return;const blob=new Blob([JSON.stringify(S.result,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=`kbit-${S.result.instance.id}-semilla-${S.result.config.seed}.json`;a.click();URL.revokeObjectURL(url);});
 load();
 
 for(const button of document.querySelectorAll('[data-view]'))button.addEventListener('click',()=>{document.querySelectorAll('.view').forEach(v=>v.hidden=v.id!==button.dataset.view);document.querySelectorAll('[data-view]').forEach(b=>{b.classList.toggle('active',b===button);b.setAttribute('aria-pressed',String(b===button));});});
+
+let evaluation=null;
+async function loadEvaluation(){try{evaluation=await api('/api/benchmark/latest');const b=evaluation;
+$('eval-meta').textContent=`${b.scenario==='original'?'30 productos / 32 posiciones':'QAP10'} · ${b.seeds.length} semillas · ${b.budget_seconds_per_method} s por método · ${b.timestamp.slice(0,10)}`;
+const labels={local:'Búsqueda local',sa:'Recocido simulado',hybrid:'Recocido + pulido',qiskit:'Clásico + QAOA',ablation:'Control sin Qiskit'};
+$('eval-summary').innerHTML=Object.entries(b.summary).map(([id,r])=>`<tr><td>${labels[id]}</td><td>${fmt(r.mean_cost,2)}</td><td>${fmt(r.std_cost,2)}</td><td>${fmt(r.best_cost)}</td><td>${fmt(r.mean_seconds,3)} s</td></tr>`).join('');
+$('eval-seeds').innerHTML=b.runs.map(r=>{const q=r.results.find(v=>v.id==='qiskit'),a=r.results.find(v=>v.id==='ablation'),classic=Math.min(...r.results.filter(v=>!['qiskit','ablation'].includes(v.id)).map(v=>v.cost));return `<tr><td>${r.seed}</td><td>${fmt(r.initial_cost)}</td><td>${fmt(classic)}</td><td>${fmt(q.cost)}</td><td>${fmt(a.cost)}</td><td>${fmt(q.qiskit_additional_gain)}</td></tr>`}).join('');
+$('eval-outcome').textContent=`Qiskit supera al mejor clásico: ${b.qiskit_wins_vs_best_classic}/${b.seeds.length} · Empata: ${b.qiskit_ties_vs_best_classic}/${b.seeds.length} · Supera al control sin Qiskit: ${b.qiskit_wins_vs_ablation}/${b.seeds.length}`;
+$('eval-export').disabled=false;
+}catch(e){$('eval-meta').textContent=e.message;}}
+document.querySelector('[data-view=evaluation]').addEventListener('click',loadEvaluation);
+$('eval-export').addEventListener('click',()=>{if(!evaluation)return;const url=URL.createObjectURL(new Blob([JSON.stringify(evaluation,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='kbit-evaluacion.json';a.click();URL.revokeObjectURL(url);});

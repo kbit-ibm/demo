@@ -81,6 +81,24 @@ class ComparisonTests(unittest.TestCase):
                 self.assertEqual(method['gap_percent'] is None,scenario=='original')
                 if method['id'] not in ('greedy','qiskit'):self.assertEqual(method['initial_assignment'],p)
 
+    def test_improved_budget_sampling_and_ablation(self):
+        from improved_solver import improved,classical
+        instance=preview('original')['instance'];initial=preview('original')['initial']
+        q=improved(instance,initial,seed=7,budget_seconds=.7,layers=1,shots=256,maxiter=10)
+        a=improved(instance,initial,seed=7,budget_seconds=.7,ablation=True)
+        for r in [q,a]:
+            validate(instance,r['assignment']);self.assertAlmostEqual(value(instance,r['assignment']),r['cost'])
+            self.assertLessEqual(r['cost'],r['warm_start_cost'])
+            for block in r['blocks']:
+                self.assertLessEqual(block['seconds'],r['budget_seconds'])
+                self.assertAlmostEqual(value(instance,block['assignment_after']),block['after'])
+        self.assertTrue(q['quantum_executed']);self.assertGreater(q['total_shots'],0)
+        for b in q['blocks']:self.assertEqual(sum(b['counts'].values()),256)
+        self.assertFalse(a['quantum_executed']);self.assertEqual(a['total_shots'],0)
+        self.assertEqual(q['qiskit_additional_gain'],q['warm_start_cost']-q['cost'])
+        c=classical(instance,initial,'hybrid',7,.5)
+        self.assertEqual(c['initial_assignment'],initial);validate(instance,c['assignment'])
+
     def test_invalid_assignment_rejected(self):
         instance=preview()['instance']
         for p in [[0]*10,list(range(9)),list(range(1,11))]:

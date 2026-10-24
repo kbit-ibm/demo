@@ -3,6 +3,7 @@ from pathlib import Path
 import json
 from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).resolve().parents[1]
+(ROOT/'review').mkdir(exist_ok=True)
 with sync_playwright() as pw:
  browser=pw.chromium.launch(headless=True)
  page=browser.new_page(viewport={'width':1440,'height':1100},device_scale_factor=1)
@@ -36,6 +37,9 @@ with sync_playwright() as pw:
  assert page.locator('#initial-map [data-slot]').count()==32
  page.locator('[data-view=data-view]').click()
  assert page.locator('#month-detail').is_visible()
+ page.locator('[data-view=comparison]').click()
+ page.locator('[data-view=evaluation]').click();page.wait_for_function("document.querySelector('#eval-summary').children.length===5")
+ assert page.locator('#eval-seeds tr').count()==5
  page.locator('[data-view=comparison]').click()
  page.screenshot(path=ROOT/'review/original-desktop.png',full_page=True)
  page.set_viewport_size({'width':390,'height':844});page.screenshot(path=ROOT/'review/original-mobile.png',full_page=True)
